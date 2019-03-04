@@ -25,7 +25,6 @@
 					key: tableau.password,
 					query: "PRAGMA table_info("+table.name+");"
 				}).then(function(data) {
-                    console.log(data);
                     return {
                         data: data,
                         table: table.name
