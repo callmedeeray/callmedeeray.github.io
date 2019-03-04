@@ -2,7 +2,7 @@
     var myConnector = tableau.makeConnector();
 	var data, query;
 	
-	tableQuery = 'SELECT * FROM "data"';
+	tableQuery = "SELECT * FROM sqlite_master WHERE type='table'";
 	
     var typesMap = {
         'NUMERIC': tableau.dataTypeEnum.float,
@@ -25,6 +25,7 @@
 					key: tableau.password,
 					query: "PRAGMA table_info("+table.name+");"
 				}).then(function(data) {
+                    console.log(data);
                     return {
                         data: data,
                         table: table.name
@@ -41,7 +42,7 @@
                         columns: data.data.map(function(table) {
                             return {
                                 id: table.name,
-                                dataType: typesMap[table.type]
+                                dataType: typesMap[table.type.toUpperCase()]
                             };
                         })
                     };
