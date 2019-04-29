@@ -41,7 +41,6 @@
 		.axis--x path {
 			display: none;
 		}
-
 	</style>
 	<title>#MakeoverMonday 2019, Week 18: Spacewalks from the ISS</title>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
@@ -86,7 +85,7 @@
 
 		var bounds = svg.node().getBoundingClientRect(),
 			width = bounds.width - margin.left - margin.right,
-			height = bounds.height - margin.top - margin.bottom;
+			height = window.innerHeight/2; // bounds.height - margin.top - margin.bottom;
 
 		svg.attr('height', height);
 
