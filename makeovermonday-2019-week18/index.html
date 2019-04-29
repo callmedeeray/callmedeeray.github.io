@@ -54,16 +54,25 @@
 	<script>
 	// SETUP
 
+	
 	var svg = d3.select("svg"),
 		margin = { top: 20, right: 20, bottom: 20, left: 20 },
 		x = d3.scaleBand().padding(0.5),
 		y = d3.scaleLinear(),
 		theData = undefined;
 
-	var g = svg.append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	d3.select('body')
+		.append('h1')
+		.text('Spacewalks Since the Launch of the ISS')
+		.style('display', 'inline-block')
+		.style('margin-left', margin.left + 'px')
+		.style('margin-top', margin.top + 'px')
+		;
 
-	g.append("g")
+	// var g = svg.append("g")
+	// 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	svg.append("g")
 		.attr("class", "axis axis--x");
 
 	// g.append("g")
@@ -80,12 +89,6 @@
 
 	function draw() {
 
-		d3.select('body')
-			.append('h1')
-			.style('display', 'inline-block')
-			.style('margin-left', margin.left + 'px')
-			.style('margin-top', margin.top + 'px')
-			.text('Spacewalks Since the Launch of the ISS')
 
 		var bounds = svg.node().getBoundingClientRect(),
 			width = bounds.width - margin.left - margin.right,
