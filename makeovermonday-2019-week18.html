@@ -54,11 +54,13 @@
 
 				var svg = d3.select("body")
 					.append('div')
-					.style('position', 'inline-block')
+					.style('display', 'inline-block')
 					.style('height', window.innerHeight - margin.bottom + 'px')
 					.style('width', width + 'px')
 					.style('margin-top', margin.top + 'px')
 					.style('margin-bottom', margin.bottom + 'px')
+					.style('position', 'fixed')
+					
 					.append("svg")
 					.attr("width", width)
 					.attr("height", height)
