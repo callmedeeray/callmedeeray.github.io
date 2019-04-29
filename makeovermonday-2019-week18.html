@@ -58,6 +58,7 @@
 					.style('height', window.innerHeight - margin.bottom + 'px')
 					.style('width', width + 'px')
 					.style('margin-top', margin.top + 'px')
+					.style('margin-bottom', margin.bottom + 'px')
 					.append("svg")
 					.attr("width", width)
 					.attr("height", height)
@@ -81,7 +82,7 @@
 					.attr("height", function(d) { return height - y(d.spacewalks); })
 					.attr('fill', '#0E0E21')
 					.attr('stroke', 'white')
-					.attr('stroke-width', 0.5)
+					.attr('stroke-width', 0.25)
 					;
 
 				// // add the x Axis
