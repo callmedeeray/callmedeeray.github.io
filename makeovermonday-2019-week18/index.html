@@ -105,7 +105,7 @@
 			.attr("transform", "translate(0," + height + ")")
 			.call(d3.axisBottom(x));
 
-		g.selectAll(".tick text").attr("fill", '#585776')
+		g.selectAll(".tick text").attr("fill", '#585776').attr('dy', '1em');
 
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
