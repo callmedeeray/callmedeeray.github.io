@@ -85,14 +85,15 @@
 
 		svg
 			.attr('height', height)
-			.style('padding-top', height*0.75)
+			// .style('padding-top', height*0.75)
+			.style('position', 'fixed')
 			;
 
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
 
 		g.select(".axis--x")
-			.attr("transform", "translate(0," + height*0.9 + ")")
+			.attr("transform", "translate(0," + (height*0.9) + ")")
 			.call(d3.axisBottom(x));
 
 		// g.select(".axis--y")
