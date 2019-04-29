@@ -97,7 +97,7 @@
 			height = window.innerHeight*0.5; //bounds.height - margin.top - margin.bottom;
 
 		svg.attr('height', height)
-			.style('margin-top', height)
+			.style('padding-top', height*0.8)
 			.style('position', 'fixed')
 			;
 
@@ -105,7 +105,7 @@
 		y.rangeRound([height, 0]);
 
 		g.select(".axis--x")
-			// .attr("transform", "translate(0," + (height*0.9) + ")")
+			.attr("transform", "translate(0," + height + ")")
 			.call(d3.axisBottom(x));
 
 		// g.select(".axis--y")
