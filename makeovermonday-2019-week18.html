@@ -4,21 +4,18 @@
 		<meta charset="utf-8">
 		<title>#MakeoverMonday 2019, Week 18:  Spacewalks from the ISS</title>
 		<style>
-			body {
-				cursor: url('./rocket.png'), pointer;
-				background-image: url('background.png');
-				background-color: black;
-				width: 100%;
-				height: 100%;
-				display: inline-block;
-				position: fixed;
-			}
 		</style>
 		<script src='https://d3js.org/d3.v4.min.js'></script>
 	</head>
 	<body>
 		<script type="text/javascript">
-
+			d3.select('body')
+				.style('width', window.innerWidth + 'px')
+				.style('height', window.innerheight + 'px')
+				.style('background-image', 'url("background.png")')
+				.style('background-color', 'black')
+				.style('cursor', 'url("./rocket.png"), pointer')
+				;
 
 
 		</script>
