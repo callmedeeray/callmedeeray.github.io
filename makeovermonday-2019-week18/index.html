@@ -64,14 +64,6 @@
 		.style('margin-left', margin.left + 'px')
 		.style('margin-top', margin.top + 'px')
 		;
-
-	// var svg = d3
-	// 	.select("svg")
-		// .style('position', 'fixed')
-		// .style('display', 'inline-block')
-		// .style('padding-top', window.innerHeight*0.4 + 'px')
-		// .style('padding-bottom', window.innerHeight*0.05 + 'px')
-		// ;
 		
 	var svg = d3
 		.select('body')
@@ -87,16 +79,6 @@
 	g.append("g")
 		.attr("class", "axis axis--x");
 
-	// g.append("g")
-	// 	.attr("class", "axis axis--y");
-
-	// g.append("text")
-	// 	.attr("transform", "rotate(-90)")
-	// 	.attr("y", 6)
-	// 	.attr("dy", "0.71em")
-	// 	.attr("text-anchor", "end")
-	// 	.text("Frequency");
-
 	// DRAWING
 
 	function draw() {
@@ -104,12 +86,10 @@
 
 		var bounds = svg.node().getBoundingClientRect(),
 			width = bounds.width - margin.left - margin.right,
-			height = bounds.height - margin.top - margin.bottom;
+			height = window.innerHeight/2; // bounds.height - margin.top - margin.bottom;
 
-		// svg.attr('height', height)
-		// 	.style('padding-top', height*0.8 + 'px')
-		// 	.style('padding-bottom', height*0.1 + 'px')
-		// 	;
+		svg.attr('height', height);
+
 
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
@@ -123,8 +103,6 @@
 			.attr('font-size', '10pt')
 			.attr('dy', '10.1pt');
 
-		// g.select(".axis--y")
-		// 	.call(d3.axisLeft(y).ticks(10, "%"));
 
 		var bars = g.selectAll(".bar")
 			.data(theData);
