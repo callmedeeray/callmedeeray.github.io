@@ -53,9 +53,9 @@
 	// SETUP
 
 	
-	var svg = d3.select("svg"),
+	var svg = d3.select("svg").style('position', 'fixed'),
 		margin = { top: 20, right: 20, bottom: 20, left: 20 },
-		x = d3.scaleBand().padding(0.2),
+		x = d3.scaleBand().padding(0.3),
 		y = d3.scaleLinear(),
 		theData = undefined;
 
@@ -97,7 +97,6 @@
 		svg.attr('height', height)
 			.style('padding-top', height*0.8)
 			.style('padding-bottom', height*0.1)
-			.style('position', 'fixed')
 			;
 
 		x.rangeRound([0, width]);
