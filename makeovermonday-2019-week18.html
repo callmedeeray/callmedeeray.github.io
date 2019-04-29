@@ -43,7 +43,10 @@
 				theData = undefined,
 				x = d3.scaleBand().padding(0.5),
 				y = d3.scaleLinear(),
-				svg = d3.select('svg');
+				svg = d3.select('svg')
+					.append("g")
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+				;
 
 			// d3.select('body')
 			// 	.style('height', window.innerHeight - margin.bottom + 'px')
@@ -64,10 +67,6 @@
 			// 	.attr("width", width)
 			// 	.attr("height", height)
 
-			svg
-				.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-				;
 
 			function draw() {
 
