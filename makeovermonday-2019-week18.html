@@ -45,21 +45,25 @@
 					d.year = +d.year;
 					d.spacewalks = +d.spacewalks;
 				})
+
 				d3.select('body')
-					// .style('position', 'fixed')
-					.style('height', window.innerHeight + 'px')
+					.style('height', window.innerHeight - margin.bottom + 'px')
 					.style('margin-left', margin.left + 'px')
-					// .style('margin-top', margin.top + 'px')
 					.style('margin-right', margin.right + 'px')
-					// .style('margin-bottom', margin.bottom + 'px')
 					;
 
 				var svg = d3.select("body")
+					.append('div')
+					.style('position', 'inline-block')
+					.style('height', window.innerHeight - margin.bottom + 'px')
+					.style('width', width + 'px')
+					.style('margin-top', margin.top + 'px')
 					.append("svg")
 					.attr("width", width)
 					.attr("height", height)
 					.append("g")
-					.attr("transform", "translate(0," + margin.top + ")");
+					// .attr("transform", "translate(0," + margin.top + ")")
+					;
 
 
 				// Scale the range of the data in the domains
