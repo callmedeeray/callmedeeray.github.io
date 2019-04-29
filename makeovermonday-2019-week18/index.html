@@ -83,7 +83,10 @@
 			width = bounds.width - margin.left - margin.right,
 			height = window.innerHeight/2; //bounds.height - margin.top - margin.bottom;
 
-		svg.attr('height', height);
+		svg
+			.attr('height', height)
+			.style('padding-top', height*0.9)
+			;
 
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
