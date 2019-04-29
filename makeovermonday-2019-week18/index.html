@@ -53,7 +53,7 @@
 	<script>
 	// SETUP
 
-	var svg = d3.select("svg"),
+	var svg = d3.select("svg").attr('height', window.innerHeight*0.5,
 		margin = { top: 20, right: 20, bottom: 30, left: 40 },
 		x = d3.scaleBand().padding(0.5),
 		y = d3.scaleLinear(),
