@@ -11,7 +11,7 @@
 			background-size: cover;
 			background-color: black;
 			cursor: url('./rocket.png'), pointer;
-			color: white;
+			color: #585776;
 			font-family: "Trebuchet MS", Trebuchet, sans-serif;
 		}
 
@@ -64,6 +64,14 @@
 		.style('margin-left', margin.left + 'px')
 		.style('margin-top', margin.top + 'px')
 		;
+
+	// var svg = d3
+	// 	.select("svg")
+		// .style('position', 'fixed')
+		// .style('display', 'inline-block')
+		// .style('padding-top', window.innerHeight*0.4 + 'px')
+		// .style('padding-bottom', window.innerHeight*0.05 + 'px')
+		// ;
 		
 	var svg = d3
 		.select('body')
@@ -79,6 +87,16 @@
 	g.append("g")
 		.attr("class", "axis axis--x");
 
+	// g.append("g")
+	// 	.attr("class", "axis axis--y");
+
+	// g.append("text")
+	// 	.attr("transform", "rotate(-90)")
+	// 	.attr("y", 6)
+	// 	.attr("dy", "0.71em")
+	// 	.attr("text-anchor", "end")
+	// 	.text("Frequency");
+
 	// DRAWING
 
 	function draw() {
@@ -88,8 +106,10 @@
 			width = bounds.width - margin.left - margin.right,
 			height = bounds.height - margin.top - margin.bottom;
 
-		svg.attr('height', height);
-
+		// svg.attr('height', height)
+		// 	.style('padding-top', height*0.8 + 'px')
+		// 	.style('padding-bottom', height*0.1 + 'px')
+		// 	;
 
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
@@ -99,10 +119,12 @@
 			.call(d3.axisBottom(x));
 
 		g.selectAll(".tick text")
-			.attr("fill", 'white') //'#585776')
+			.attr("fill", '#585776')
 			.attr('font-size', '10pt')
 			.attr('dy', '10.1pt');
 
+		// g.select(".axis--y")
+		// 	.call(d3.axisLeft(y).ticks(10, "%"));
 
 		var bars = g.selectAll(".bar")
 			.data(theData);
