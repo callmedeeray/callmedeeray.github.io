@@ -37,10 +37,7 @@
 
 
 			// SETUP
-			// var margin = {top: window.innerHeight*0.5, left: 100, right: 100, bottom: window.innerHeight*0.1},
-			var margin = {top: 50, left: 100, right: 100, bottom: 10},
-				// width = window.innerWidth - margin.left - margin.right,
-				// height = window.innerHeight - margin.top - margin.bottom,
+			var margin = {top: 50, left: 20, right: 20, bottom: 10},
 				theData = undefined,
 				x = d3.scaleBand().padding(0.5),
 				y = d3.scaleLinear(),
@@ -51,28 +48,7 @@
 					.append("g")
 					.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 				;
-
-			// d3.select('body')
-			// 	.style('height', window.innerHeight - margin.bottom + 'px')
-			// 	.style('margin-left', margin.left + 'px')
-			// 	.style('margin-right', margin.right + 'px')
-			// 	;
-
-			// var svg = d3.select("body")
-			// 	.append('div')
-			// 	.style('display', 'inline-block')
-			// 	.style('height', window.innerHeight - margin.bottom + 'px')
-			// 	.style('width', width + 'px')
-			// 	.style('margin-top', margin.top + 'px')
-			// 	.style('margin-bottom', margin.bottom + 'px')
-			// 	.style('position', 'fixed')
-
-			// 	.append("svg")
-			// 	.attr("width", width)
-			// 	.attr("height", height)
-
-
-			function draw(theData) {
+			function draw() {
 
 				var bounds = svg.node().getBoundingClientRect(),
 					width = bounds.width - margin.left - margin.right,
@@ -107,23 +83,23 @@
 
 				// EXIT
 				bars.exit().remove();
-
 			}
 
 			function loadData(csv) {
 				d3.csv(csv, function(d) {
-					d.year = +d.year;
 					d.spacewalks = +d.spacewalks;
 					return d;
-				}, function(error, theData) {
+				}, function(error, data) {
 					if (error) throw error;
+
+					theData = data;
 
 
 					// Scale the range of the data in the domains
 					x.domain(theData.map(function(d) { return d.year; }));
 					y.domain([0, d3.max(theData, function(d) { return d.spacewalks; })]);
 
-					draw(theData);
+					draw();
 
 				});
 			};
