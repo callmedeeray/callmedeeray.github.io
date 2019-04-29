@@ -53,8 +53,7 @@
 	// SETUP
 
 	
-	var svg = d3.select("svg").style('position', 'fixed'),
-		margin = { top: 20, right: 20, bottom: 20, left: 20 },
+	var margin = { top: 20, right: 20, bottom: 20, left: 20 },
 		x = d3.scaleBand().padding(0.3),
 		y = d3.scaleLinear(),
 		theData = undefined;
@@ -66,6 +65,16 @@
 		.style('margin-left', margin.left + 'px')
 		.style('margin-top', margin.top + 'px')
 		;
+
+	var svg = d3
+		.select("svg")
+		.style('position', 'fixed')
+		.style('display', 'inline-block')
+		.style('padding-top', window.innerHeight*0.4 + 'px')
+		.style('padding-bottom', window.innerHeight*0.05 + 'px')
+		.style('padding-bottom', height*0.1)
+		;
+		
 
 	var g = svg
 		.append("g")
@@ -95,8 +104,8 @@
 			height = window.innerHeight*0.5; //bounds.height - margin.top - margin.bottom;
 
 		svg.attr('height', height)
-			.style('padding-top', height*0.8)
-			.style('padding-bottom', height*0.1)
+			.style('padding-top', height*0.8 + 'px')
+			.style('padding-bottom', height*0.1 + 'px')
 			;
 
 		x.rangeRound([0, width]);
