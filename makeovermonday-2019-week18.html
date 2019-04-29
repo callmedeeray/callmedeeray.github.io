@@ -23,6 +23,11 @@
 				visited: white;
 				hover: white;
 			}
+			.bar {
+				fill: #33313D;
+				stroke: white;
+				stroke-width: 0.25px;
+			}
 		</style>
 		<script src='https://d3js.org/d3.v4.min.js'></script>
 	</head>
@@ -75,7 +80,8 @@
 
 
 				// append the rectangles for the bar chart
-				var bars = svg.selectAll(".bar")
+				var bars = svg
+					.selectAll(".bar")
 					.data(theData);
 
 				// ENTER
@@ -83,12 +89,9 @@
 					.enter().append("rect")
 					.attr("class", "bar")
 					.attr("x", function(d) { return x(d.year); })
-					.attr("width", x.bandwidth())
 					.attr("y", function(d) { return y(d.spacewalks); })
+					.attr("width", x.bandwidth())
 					.attr("height", function(d) { return height - y(d.spacewalks); })
-					.attr('fill', '#33313D')
-					.attr('stroke', 'white')
-					.attr('stroke-width', 0.25)
 					;
 
 				// UPDATE
