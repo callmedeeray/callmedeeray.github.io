@@ -17,6 +17,7 @@
 
 		#disclaimer {
 			font-size: 7pt;
+			margin-left: 20px;
 		}
 
 		#disclaimer a {
@@ -66,10 +67,6 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
-	d3.select('#disclaimer')
-		.style('margin-left', margin.left + 'px')
-		;
-
 	var g = svg
 		.append("g")
 		// .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -107,10 +104,12 @@
 
 		g.select(".axis--x")
 			.attr("transform", "translate(0," + height + ")")
-			.attr('font-size', '0.6em')
 			.call(d3.axisBottom(x));
 
-		g.selectAll(".tick text").attr("fill", '#585776');
+		g.selectAll(".tick text")
+			.attr("fill", '#585776')
+			.attr('font-size', '10pt')
+			.attr('dy', '10.1pt');
 
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
