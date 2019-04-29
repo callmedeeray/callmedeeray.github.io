@@ -41,9 +41,6 @@
 			display: none;
 		}
 
-		.tick text {
-			fill: #585776;
-		}
 	</style>
 	<title>#MakeoverMonday 2019, Week 18: Spacewalks from the ISS</title>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
@@ -107,6 +104,8 @@
 		g.select(".axis--x")
 			.attr("transform", "translate(0," + height + ")")
 			.call(d3.axisBottom(x));
+
+		g.selectAll(".tick text").attr("fill", '#585776')
 
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
