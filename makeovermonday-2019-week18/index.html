@@ -15,11 +15,11 @@
 			font-family: "Trebuchet MS", Trebuchet, sans-serif;
 		}
 
-		.disclaimer {
+		#disclaimer {
 			font-size: 7pt;
 		}
 
-		.disclaimer a {
+		#disclaimer a {
 			color: #585776;
 			active: white;
 			visited: #585776;
@@ -66,7 +66,7 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
-	d3.selectAll('.disclaimer')
+	d3.select('#disclaimer')
 		.style('margin-left', margin.left + 'px')
 		;
 
@@ -164,7 +164,7 @@
 	window.addEventListener("resize", draw);
 	loadData("./makeovermonday-2019-week18-data.csv");
 	</script>
-	<div class='disclaimer'>
+	<div id='disclaimer'>
 		Rocket icon made by <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 	</div>
 </body>
