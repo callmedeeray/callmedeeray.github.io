@@ -80,6 +80,7 @@
 
 				// append the rectangles for the bar chart
 				var bars = svg
+					.append('g')
 					.selectAll(".bar")
 					.data(theData);
 
