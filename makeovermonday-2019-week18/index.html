@@ -96,7 +96,7 @@
 			width = bounds.width - margin.left - margin.right,
 			height = window.innerHeight; //bounds.height - margin.top - margin.bottom;
 
-		svg.attr('height', height)
+		svg.attr('height', height*0.45)
 			.style('margin-top', height*0.45)
 			.style('position', 'fixed')
 			;
@@ -111,7 +111,7 @@
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
 
-		var bars = g.selectAll(".bar")
+		var bars = g.append('g').selectAll(".bar")
 			.data(theData);
 
 		// ENTER
