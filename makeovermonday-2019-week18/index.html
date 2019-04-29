@@ -41,21 +41,6 @@
 		.axis--x path {
 			display: none;
 		}
-		.svg-container {
-			display: inline-block;
-			position: relative;
-			width: 100%;
-			padding-bottom: 100%; /* aspect ratio */
-			vertical-align: top;
-			overflow: hidden;
-		}
-		.svg-content-responsive {
-			display: inline-block;
-			position: absolute;
-			top: 10px;
-			left: 0;
-		}
-
 	</style>
 	<title>#MakeoverMonday 2019, Week 18: Spacewalks from the ISS</title>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
@@ -79,22 +64,11 @@
 		.style('margin-top', margin.top + 'px')
 		;
 		
-	// var svg = d3
-	// 	.select('body')
-	// 	.append('svg')
-	// 	.attr('width', '100%')
-	// 	.attr('height', window.innerHeight*0.5);
-
-
-	var svg = d3.select("div#chartId")
-		.append("div")
-		.classed("svg-container", true) //container class to make it responsive
-		.append("svg")
-		//responsive SVG needs these 2 attributes and no width and height attr
-		.attr("preserveAspectRatio", "xMinYMin meet")
-		.attr("viewBox", "0 0 600 400")
-		//class to make it responsive
-		.classed("svg-content-responsive", true); 
+	var svg = d3
+		.select('body')
+		.append('svg')
+		.attr('width', '100%')
+		.attr('height', window.innerHeight*0.5);
 
 	var g = svg
 		.append("g")
