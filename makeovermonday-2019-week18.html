@@ -35,6 +35,10 @@
 			fill: #585776;
 			stroke-width: 0.6;
 		}
+
+		.axis--x path {
+			display: none;
+		}
 	</style>
 	<title>#MakeoverMonday 2019, Week 18: Spacewalks from the ISS</title>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
@@ -57,15 +61,15 @@
 	g.append("g")
 		.attr("class", "axis axis--x");
 
-	g.append("g")
-		.attr("class", "axis axis--y");
+	// g.append("g")
+	// 	.attr("class", "axis axis--y");
 
-	g.append("text")
-		.attr("transform", "rotate(-90)")
-		.attr("y", 6)
-		.attr("dy", "0.71em")
-		.attr("text-anchor", "end")
-		.text("Frequency");
+	// g.append("text")
+	// 	.attr("transform", "rotate(-90)")
+	// 	.attr("y", 6)
+	// 	.attr("dy", "0.71em")
+	// 	.attr("text-anchor", "end")
+	// 	.text("Frequency");
 
 	// DRAWING
 
@@ -78,9 +82,9 @@
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
 
-		// g.select(".axis--x")
-		// 	.attr("transform", "translate(0," + height + ")")
-		// 	.call(d3.axisBottom(x));
+		g.select(".axis--x")
+			.attr("transform", "translate(0," + height + ")")
+			.call(d3.axisBottom(x));
 
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
