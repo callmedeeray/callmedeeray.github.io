@@ -71,7 +71,7 @@
 			// 	.attr("height", height)
 
 
-			function draw() {
+			function draw(theData) {
 
 				var bounds = svg.node().getBoundingClientRect(),
 					width = bounds.width - margin.left - margin.right,
@@ -83,7 +83,6 @@
 
 				// append the rectangles for the bar chart
 				var bars = svg
-					.append('g')
 					.selectAll(".bar")
 					.data(theData);
 
@@ -123,7 +122,7 @@
 					x.domain(theData.map(function(d) { return d.year; }));
 					y.domain([0, d3.max(theData, function(d) { return d.spacewalks; })]);
 
-					draw();
+					draw(theData);
 
 				});
 			};
