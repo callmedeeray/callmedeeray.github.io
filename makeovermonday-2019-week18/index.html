@@ -48,11 +48,9 @@
 </head>
 
 <body>
-	<svg width='100%' height='100%'></svg>
 	<script>
-	// SETUP
 
-	
+	// SETUP
 	var margin = { top: 20, right: 20, bottom: 20, left: 20 },
 		x = d3.scaleBand().padding(0.3),
 		y = d3.scaleLinear(),
@@ -78,7 +76,7 @@
 
 	var g = svg
 		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + window.innerHeight*0.25 + ")")
+		.attr("transform", "translate(" + margin.left + ",0)")
 		;
 
 	g.append("g")
@@ -123,7 +121,7 @@
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
 
-		var bars = g.append('g').selectAll(".bar")
+		var bars = g.selectAll(".bar")
 			.data(theData);
 
 		// ENTER
@@ -173,6 +171,7 @@
 	window.addEventListener("resize", draw);
 	loadData("./makeovermonday-2019-week18-data.csv");
 	</script>
+	<svg width='100%' height='100%'></svg>
 	<div id='disclaimer'>
 		Rocket icon made by <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 	</div>
