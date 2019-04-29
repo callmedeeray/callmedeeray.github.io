@@ -89,11 +89,11 @@
 
 		var bounds = svg.node().getBoundingClientRect(),
 			width = bounds.width - margin.left - margin.right,
-			height = window.innerHeight; //bounds.height - margin.top - margin.bottom;
+			height = window.innerHeight/2; //bounds.height - margin.top - margin.bottom;
 
 		svg
 			.attr('height', height/2)
-			.style('margin-top', height*0.75)
+			.style('padding-top', height*0.75)
 			.style('position', 'fixed')
 			;
 
