@@ -69,8 +69,10 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
-	var g = svg.append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	var g = svg
+		.append("g")
+		// .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		;
 
 	g.append("g")
 		.attr("class", "axis axis--x");
@@ -94,8 +96,7 @@
 			width = bounds.width - margin.left - margin.right,
 			height = window.innerHeight; //bounds.height - margin.top - margin.bottom;
 
-		g
-			.attr('height', height)
+		svg.attr('height', height)
 			// .style('margin-top', height*0.75)
 			.style('position', 'fixed')
 			;
