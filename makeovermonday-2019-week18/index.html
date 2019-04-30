@@ -65,6 +65,13 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
+	d3.select('body')
+		.append('span')
+		.attr('id', 'paddingBox')
+		.style('display', 'inline-block')
+		.style('height', window.innerHeight*0.3)
+		;
+
 	// var svg = d3
 	// 	.select("svg")
 		// .style('position', 'fixed')
@@ -92,7 +99,8 @@
 	function draw() {
 
 		svg.attr('height', window.innerHeight*0.5);
-		
+		d3.select('#paddingBox').style('height', window.innerHeight*0.3);
+
 		var bounds = svg.node().getBoundingClientRect(),
 			width = bounds.width - margin.left - margin.right,
 			height = bounds.height - margin.top - margin.bottom;
@@ -110,8 +118,9 @@
 			.call(d3.axisBottom(x));
 
 		g.selectAll(".tick text")
-			.attr("fill", '#585776')
-			.attr('font-size', '10pt')
+			.attr("fill", '#E2E9FF')
+			.attr('font-size', '8pt')
+			.attr('font-weight', 'bold')
 			.attr('dy', '10.1pt');
 
 		// g.select(".axis--y")
