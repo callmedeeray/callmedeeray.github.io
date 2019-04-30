@@ -132,11 +132,17 @@
 			g.selectAll('.tick text')
 				.attr('transform', 'rotate(-90)')
 				.style("text-anchor", "end")
-				.attr("dx", "-.7em")
+				.attr("dx", "-1em")
 				.attr("dy", ".15em")
 				;
 		}
-		else { g.selectAll('.tick text').attr('transform', null); };
+		else { 
+			g.selectAll('.tick text')
+				.attr('transform', null);
+				.style("text-anchor", "middle")
+				.attr("dx", null)
+				.attr("dy", '10.1pt') 
+		};
 
 		// g.select(".axis--y")
 		// 	.call(d3.axisLeft(y).ticks(10, "%"));
