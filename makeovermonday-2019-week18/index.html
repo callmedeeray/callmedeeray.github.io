@@ -114,11 +114,6 @@
 			width = bounds.width - margin.left - margin.right,
 			height = bounds.height - margin.top - margin.bottom;
 
-		// svg.attr('height', height)
-		// 	.style('padding-top', height*0.8 + 'px')
-		// 	.style('padding-bottom', height*0.1 + 'px')
-		// 	;
-
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
 
@@ -150,9 +145,6 @@
 				.attr("dy", '10.1pt') 
 				;
 		};
-
-		// g.select(".axis--y")
-		// 	.call(d3.axisLeft(y).ticks(10, "%"));
 
 		var bars = g.selectAll(".bar")
 			.data(theData);
@@ -205,6 +197,6 @@
 
 	</script>
 	<div id='disclaimer'>
-		Rocket icon made by <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+		Icons by <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 	</div>
 </body>
