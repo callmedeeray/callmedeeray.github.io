@@ -128,7 +128,7 @@
 			.attr('font-weight', 'bold')
 			.attr('dy', '10.1pt');
 
-		if (window.innerWidth <== 675) {
+		if (window.innerWidth <= 675) {
 			g.selectAll('.tick text').attr('transform', 'rotate(-90)');
 		}
 		else { g.selectAll('.tick text').attr('transform', null); };
