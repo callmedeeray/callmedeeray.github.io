@@ -67,7 +67,7 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
-	let paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.6*window.innerHeight);
+	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 
 	d3.select('body')
 		.append('div')
@@ -103,7 +103,7 @@
 
 	function draw() {
 
-		let paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.6*window.innerHeight);
+		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 
 		svg.attr('height', window.innerHeight*0.5);
 		d3.select('#paddingBox').style('height', paddingHeight + 'px');
