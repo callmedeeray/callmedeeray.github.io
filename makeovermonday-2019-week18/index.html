@@ -110,11 +110,12 @@
 	var pathGen = d3.line().curve(d3.curveNatural),
 		points = [
 					[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
-					[5*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
+					[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
 					[window.innerWidth/2, paddingHeight/3], [astroX - astroWidth/2, astroY + astroHeight/2]
 				];
 
 	astroBox.append('path')
+		.attr('id', 'zippyBoi')
 		.attr('stroke-width', 10)
 		.attr('stroke', '#585776')
 		.attr('stroke-dasharray', '20,20')
@@ -150,6 +151,11 @@
 
 		svg.attr('height', window.innerHeight*0.5);
 		astroX = window.innerWidth*0.8;
+		points = [
+					[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
+					[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
+					[window.innerWidth/2, paddingHeight/3], [astroX - astroWidth/2, astroY + astroHeight/2]
+				];
 
 		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 		if (paddingHeight <= 82) { 
@@ -167,6 +173,9 @@
 			d3.select('#littleman')
 				.attr('x', astroX)
 				.attr('y', astroY);
+
+			d3.select('#zippyBoi')
+				.attr('d', pathGen(points));
 
 		};
 
