@@ -50,7 +50,6 @@
 </head>
 
 <body>
-	<!-- <svg width='100%' height='100%'></svg> -->
 	<script>
 
 	// SETUP
@@ -72,20 +71,26 @@
 
 	d3.select('body')
 		.append('div')
-		.attr('id', 'paddingBox')
+		.attr('id', 'astroBox')
 		.style('display', 'inline-block')
 		.style('height', paddingHeight + 'px')
 		.style('width', '100%')
 		;
 
-	// var svg = d3
-	// 	.select("svg")
-		// .style('position', 'fixed')
-		// .style('display', 'inline-block')
-		// .style('padding-top', window.innerHeight*0.4 + 'px')
-		// .style('padding-bottom', window.innerHeight*0.05 + 'px')
-		// ;
-		
+	var astroBox = d3.select('#astroBox')
+		.style('height', paddingHeight + 'px')
+		.append('svg')
+		.attr('width', '100%')
+		.attr('height', paddingHeight*0.99);
+
+	astroBox.append('img')
+		.attr('src', './makeovermonday-2019-week18-astronaut.png')
+		.attr('id', 'littleman')
+		.style('position', 'absolute')
+		.attr('x', window.innerWidth * 0.7)
+		.attr('y', 0);
+
+
 	var svg = d3
 		.select('body')
 		.append('svg')
@@ -104,11 +109,25 @@
 
 	function draw() {
 
-		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-		if (paddingHeight <= 0) { paddingHeight = 0 };
-
 		svg.attr('height', window.innerHeight*0.5);
-		d3.select('#paddingBox').style('height', paddingHeight + 'px');
+
+		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
+		if (paddingHeight <= 163) { 
+			d3.select('#astroBox').style('height', '0px');
+			astroBox
+				.attr('height', 0)
+				.style('display', 'none');
+		}
+		else {
+			d3.select('#astroBox').style('height', paddingHeight + 'px')
+			astroBox
+				.attr('height', paddingHeight*0.99)
+				.style('display', null)
+				.attr('x', window.innerWidth * 0.7)
+				.attr('y', 0);
+
+		};
+
 
 		var bounds = svg.node().getBoundingClientRect(),
 			width = bounds.width - margin.left - margin.right,
@@ -171,9 +190,9 @@
 
 	// LOADING DATA
 
-	function loadData(tsvFile) {
+	function loadData(csvFile) {
 
-		d3.csv(tsvFile, function(d) {
+		d3.csv(csvFile, function(d) {
 			d.spacewalks = +d.spacewalks
 			return d;
 
