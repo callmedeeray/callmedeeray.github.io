@@ -57,7 +57,11 @@
 		x = d3.scaleBand().padding(0.3),
 		y = d3.scaleLinear(),
 		theData = undefined,
-		astroBox;
+		astroBox,
+		astroWidth = 47,
+		astroHeight = 81.5,
+		astroX = window.innerWidth*0.8,
+		astroY = 0;
 
 	d3.select('body')
 		.append('h1')
@@ -87,13 +91,26 @@
 
 	};
 
+	var pathGen = d3.line().curve(d3.curveNatural),
+		points = [
+					[0, paddingHeight], [window.innerWidth/4, paddingHeight/2],
+					[window.innerWidth/3, paddingHeight*0.9], [2*window.innerWidth/3, paddingHeight/4],
+					[window.innerWidth/2, paddingHeight/3], [astroX + astroWidth/2, astroY + astroHeight/2]
+				];
+
+	astroBox.append('path')
+		.attr('stroke-width', 5)
+		.attr('stroke', '#585776')
+		.attr('stroke-dasharray', '10,10')
+		.attr('d', pathGen(points));
+
 	astroBox.append('image')
 		.attr('xlink:href', './makeovermonday-2019-week18-astronaut.png')
 		.attr('id', 'littleman')
-		.attr('width', 47)
-		.attr('height', 81.5)
-		.attr('x', window.innerWidth * 0.8)
-		.attr('y', 0);
+		.attr('width', astroWidth)
+		.attr('height', astroHeight)
+		.attr('x', astroX)
+		.attr('y', astroY);
 
 	d3.select('body')
 		.append('div')
@@ -122,6 +139,7 @@
 	function draw() {
 
 		svg.attr('height', window.innerHeight*0.5);
+		astroX = window.innerWidth*0.8;
 
 		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 		if (paddingHeight <= 82) { 
@@ -137,8 +155,8 @@
 				.style('display', null);
 
 			d3.select('#littleman')
-				.attr('x', window.innerWidth * 0.7)
-				.attr('y', 0);
+				.attr('x', astroX)
+				.attr('y', astroY);
 
 		};
 
