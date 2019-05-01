@@ -56,7 +56,8 @@
 	var margin = { top: 20, right: 20, bottom: 20, left: 20 },
 		x = d3.scaleBand().padding(0.3),
 		y = d3.scaleLinear(),
-		theData = undefined;
+		theData = undefined,
+		astroBox;
 
 	d3.select('body')
 		.append('h1')
@@ -67,7 +68,32 @@
 		;
 
 	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-	if (paddingHeight <= 0) { paddingHeight = 0 };
+	if (paddingHeight <= 82) { 
+
+		astroBox = d3.select('#astroBox')
+			.style('height', '0px')
+			.append('svg')
+			.attr('width', '100%')
+			.attr('height', 0)
+			.style('display', 'none');
+	}
+	else {
+
+		astroBox = d3.select('#astroBox')
+			.style('height', paddingHeight + 'px')
+			.append('svg')
+			.attr('width', '100%')
+			.attr('height', paddingHeight*0.99);
+
+	};
+
+	astroBox.append('image')
+		.attr('xlink:href', './makeovermonday-2019-week18-astronaut.png')
+		.attr('id', 'littleman')
+		.attr('width', 47)
+		.attr('height', 81.5)
+		.attr('x', window.innerWidth * 0.8)
+		.attr('y', 0);
 
 	d3.select('body')
 		.append('div')
@@ -76,21 +102,6 @@
 		.style('height', paddingHeight + 'px')
 		.style('width', '100%')
 		;
-
-	var astroBox = d3.select('#astroBox')
-		.style('height', paddingHeight + 'px')
-		.append('svg')
-		.attr('width', '100%')
-		.attr('height', paddingHeight*0.99);
-
-	astroBox.append('image')
-		.attr('xlink:href', './makeovermonday-2019-week18-astronaut.png')
-		.attr('id', 'littleman')
-		.attr('width', 47)
-		.attr('height', 81.5)
-		.attr('x', window.innerWidth * 0.7)
-		.attr('y', 0);
-
 
 	var svg = d3
 		.select('body')
@@ -113,7 +124,7 @@
 		svg.attr('height', window.innerHeight*0.5);
 
 		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-		if (paddingHeight <= 163) { 
+		if (paddingHeight <= 82) { 
 			d3.select('#astroBox').style('height', '0px');
 			astroBox
 				.attr('height', 0)
