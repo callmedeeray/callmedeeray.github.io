@@ -72,6 +72,14 @@
 
 	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 	if (paddingHeight <= 82) { 
+			
+		d3.select('body')
+			.append('div')
+			.attr('id', 'astroBox')
+			.style('display', 'inline-block')
+			.style('height', '0px')
+			.style('width', '100%')
+			;
 
 		var astroBox = d3.select('#astroBox')
 			.style('height', '0px')
@@ -81,6 +89,15 @@
 			.style('display', 'none');
 	}
 	else {
+
+		d3.select('body')
+			.append('div')
+			.attr('id', 'astroBox')
+			.style('display', 'inline-block')
+			.style('height', paddingHeight + 'px')
+			.style('width', '100%')
+			;
+
 
 		var astroBox = d3.select('#astroBox')
 			.style('height', paddingHeight + 'px')
@@ -111,13 +128,6 @@
 		.attr('x', astroX)
 		.attr('y', astroY);
 
-	d3.select('body')
-		.append('div')
-		.attr('id', 'astroBox')
-		.style('display', 'inline-block')
-		.style('height', paddingHeight + 'px')
-		.style('width', '100%')
-		;
 
 	var svg = d3
 		.select('body')
