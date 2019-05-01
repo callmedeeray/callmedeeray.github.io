@@ -122,7 +122,9 @@
 			d3.select('#astroBox').style('height', paddingHeight + 'px')
 			astroBox
 				.attr('height', paddingHeight*0.99)
-				.style('display', null)
+				.style('display', null);
+				
+			d3.select('#littleman')
 				.attr('x', window.innerWidth * 0.7)
 				.attr('y', 0);
 
