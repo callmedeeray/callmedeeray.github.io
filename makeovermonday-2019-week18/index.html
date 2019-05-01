@@ -59,7 +59,7 @@
 		theData = undefined,
 		astroWidth = 47,
 		astroHeight = 81.5,
-		astroX = window.innerWidth*0.8,
+		astroX = window.innerWidth*0.85,
 		astroY = 0;
 
 	d3.select('body')
@@ -109,16 +109,17 @@
 
 	var pathGen = d3.line().curve(d3.curveNatural),
 		points = [
-					[0, paddingHeight], [window.innerWidth/4, paddingHeight/2],
+					[margin.left, paddingHeight], [window.innerWidth/4, paddingHeight/2],
 					[window.innerWidth/3, paddingHeight*0.9], [2*window.innerWidth/3, paddingHeight/4],
 					[window.innerWidth/2, paddingHeight/3], [astroX + astroWidth/2, astroY + astroHeight/2]
 				];
 
 	astroBox.append('path')
-		.attr('stroke-width', 5)
+		.attr('stroke-width', 10)
 		.attr('stroke', '#585776')
-		.attr('stroke-dasharray', '10,10')
-		.attr('d', pathGen(points));
+		.attr('stroke-dasharray', '12,12')
+		.attr('d', pathGen(points))
+		.attr('fill', 'none');
 
 	astroBox.append('image')
 		.attr('xlink:href', './makeovermonday-2019-week18-astronaut.png')
