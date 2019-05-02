@@ -73,7 +73,7 @@
 		;
 
 	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-	if (paddingHeight <= 82) { 
+	if (paddingHeight <= 1.5*astroHeight) { 
 			
 		d3.select('body')
 			.append('div')
@@ -220,7 +220,7 @@
 				];
 
 		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-		if (paddingHeight <= 82) { 
+		if (paddingHeight <= 1.5*astroHeight) { 
 			d3.select('#astroBox').style('height', '0px');
 			astroBox
 				.attr('height', 0)
