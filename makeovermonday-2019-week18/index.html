@@ -183,11 +183,12 @@
 		.style('width', '50%')
 		.text('Viz by:  ')
 		.style('text-anchor', 'end')
+		.style('float', 'right')
 		.append('img')
 		.attr('id', 'logo')
 		.attr('href', 'https://twitter.com/callmedeeray')
 		.attr('src', '../CallMeDeeray_Logo_Color.png')
-		.style('max-height', window.innerHeight*0.05)
+		.attr('height', window.innerHeight*0.05)
 		.style('opacity', 0.85);
 
 
@@ -292,7 +293,7 @@
 		d3.select('#logoSpan')
 			.style('width', '50%');
 		d3.select('#logo')
-			.style('max-height', window.innerHeight*0.05);
+			.attr('height', window.innerHeight*0.05);
 	}
 
 	// LOADING DATA
