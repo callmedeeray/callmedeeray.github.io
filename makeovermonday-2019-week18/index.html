@@ -189,7 +189,9 @@
 
 	d3.select('#logoSpan')
 		.append('span')
-		.style('display', 'inline-block')
+		.attr('id', 'logoText')
+		.style('height', window.innerHeight*0.05 + 'px')
+		.style('display', 'table-cell')
 		.style('vertical-align', 'middle')
 		.text('Viz by:  ');
 
@@ -298,13 +300,11 @@
 			.remove();
 
 
-
-		// d3.select('#credits')
-		// 	.style('width', '50%');
-		// d3.select('#logoSpan')
-		// 	.style('width', '50%');
 		d3.select('#logo')
 			.attr('height', window.innerHeight*0.05);
+
+		d3.select('#logoText')
+			.style('height', window.innerHeight*0.05 + 'px');
 	}
 
 	// LOADING DATA
