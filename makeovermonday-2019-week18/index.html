@@ -15,12 +15,13 @@
 			font-family: "Trebuchet MS", Trebuchet, sans-serif;
 		}
 
-		#disclaimer {
-			font-size: 7pt;
+		#credits {
+			font-size: 8pt;
 			margin-left: 20px;
+			margin-right: 20px;
 		}
 
-		#disclaimer a {
+		#credits a {
 			color: #E2E9FF;
 			active: white;
 			visited: #E2E9FF;
@@ -69,6 +70,24 @@
 		.style('margin-left', margin.left + 'px')
 		.style('margin-top', margin.top + 'px')
 		;
+
+	d3.select('#credits')
+		.style('display', 'inline-block')
+		.style('width', '50%');
+
+	d3.select('#finePrint')
+		.append('span')
+		.attr('id', 'logoSpan')
+		.style('width', '50%')
+		.text('Viz by:  ')
+		.style('text-anchor', 'end')
+		.append('img')
+		.attr('id', 'logo')
+		.attr('href', 'https://twitter.com/callmedeeray')
+		.attr('src', '../CallMeDeeray_Logo_Color.png')
+		.style('max-height', window.innerHeight*0.05)
+		.style('opacity', 0.85);
+
 
 	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 	if (paddingHeight <= 82) { 
@@ -149,6 +168,15 @@
 	// DRAWING
 
 	function draw() {
+
+
+		d3.select('#credits')
+			.style('width', '50%');
+		d3.select('#logoSpan')
+			.style('width', '50%');
+		d3.select('#logo')
+			.style('max-height', window.innerHeight*0.05);
+
 
 		svg.attr('height', window.innerHeight*0.5);
 		astroX = window.innerWidth*0.8;
@@ -267,7 +295,17 @@
 	loadData("./makeovermonday-2019-week18-data.csv");
 
 	</script>
-	<div id='disclaimer'>
-		Icons by <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+	<div id='finePrint'>
+		<span id='credits'>
+			<span>
+				Data:  <a href='' title='NASA'>NASA</a>
+			</span>
+			<span>
+				Images:  Public domain
+			</span>
+			<span>
+				Rocket icon:  <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+			</span>
+		</span>
 	</div>
 </body>
