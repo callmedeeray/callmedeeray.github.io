@@ -355,12 +355,13 @@
 		});
 	}
 	function toolTipFunc(d) {
-		var xPos = parseFloat(d3.select(this).attr('x')) + (parseFloat(d3.select(this).attr('width'))/2),
-			yPos = parseFloat(d3.select(this).attr('y')) + (parseFloat(d3.select(this).attr('height'))/2);
+
+		// var xPos = parseFloat(d3.select(this).attr('x')) + (parseFloat(d3.select(this).attr('width'))/2),
+		// 	yPos = parseFloat(d3.select(this).attr('y')) + (parseFloat(d3.select(this).attr('height'))/2);
 
 		d3.select('#tooltip')
-			.style('left', xPos + 'px')
-			.style('top', yPos + 'px')
+			.style('left', d3.event.pageX-20 + 'px')
+			.style('top', d3.event.pageY-20 + 'px')
 			.append('text')
 			.attr('class', 'temporary')
 			.text(function() { 
