@@ -71,22 +71,6 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
-	d3.select('#credits')
-		.style('display', 'block')
-		.style('width', '50%');
-
-	d3.select('#logoSpan')
-		.style('width', '50%')
-		.text('Viz by:  ')
-		.style('text-anchor', 'end')
-		.append('img')
-		.attr('id', 'logo')
-		.attr('href', 'https://twitter.com/callmedeeray')
-		.attr('src', '../CallMeDeeray_Logo_Color.png')
-		.style('max-height', window.innerHeight*0.05)
-		.style('opacity', 0.85);
-
-
 	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 	if (paddingHeight <= 82) { 
 			
@@ -163,18 +147,27 @@
 	g.append("g")
 		.attr("class", "axis axis--x");
 
+
+	d3.select('#credits')
+		.style('display', 'block')
+		.style('width', '50%');
+
+	d3.select('#logoSpan')
+		.style('width', '50%')
+		.text('Viz by:  ')
+		.style('text-anchor', 'end')
+		.append('img')
+		.attr('id', 'logo')
+		.attr('href', 'https://twitter.com/callmedeeray')
+		.attr('src', '../CallMeDeeray_Logo_Color.png')
+		.style('max-height', window.innerHeight*0.05)
+		.style('opacity', 0.85);
+
+
+
 	// DRAWING
 
 	function draw() {
-
-
-		d3.select('#credits')
-			.style('width', '50%');
-		d3.select('#logoSpan')
-			.style('width', '50%');
-		d3.select('#logo')
-			.style('max-height', window.innerHeight*0.05);
-
 
 		svg.attr('height', window.innerHeight*0.5);
 		astroX = window.innerWidth*0.8;
@@ -264,6 +257,15 @@
 		// EXIT
 		bars.exit()
 			.remove();
+
+		
+
+		d3.select('#credits')
+			.style('width', '50%');
+		d3.select('#logoSpan')
+			.style('width', '50%');
+		d3.select('#logo')
+			.style('max-height', window.innerHeight*0.05);
 	}
 
 	// LOADING DATA
