@@ -191,13 +191,13 @@
 		.append('span')
 		.attr('id', 'logoText')
 		.style('height', window.innerHeight*0.05 + 'px')
-		.style('display', 'table-cell')
+		.style('display', 'inline-block')
 		.style('vertical-align', 'middle')
 		.text('Viz by:  ');
 
 	d3.select('#logoSpan')
 		.append('img')
-		.style('display', 'inline')
+		.style('display', 'inline-block')
 		.attr('id', 'logo')
 		.attr('href', 'https://twitter.com/callmedeeray')
 		.attr('src', '../CallMeDeeray_Logo_Color.png')
