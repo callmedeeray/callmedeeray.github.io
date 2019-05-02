@@ -50,10 +50,10 @@
 			width: auto;
 			height: auto;
 			padding: 5px;
-			background-color: black;
+			background-color: dimgrey;
 			backgroun-opacity: 0.4;
 			border-radius: 5px;
-			box-shadow: 2px 2px 5px darkgrey;
+			box-shadow: 2px 2px 5px dimgrey;
 			pointer-events: none;
 		}
 
@@ -316,7 +316,6 @@
 				d3.select('#tooltip')
 					.style('left', d3.event.pageX-20 + 'px')
 					.style('top', d3.event.pageY-20 + 'px')
-					.style('display', 'inline-block')
 					.append('text')
 					.attr('class', 'temporary')
 					.text(function() { 
