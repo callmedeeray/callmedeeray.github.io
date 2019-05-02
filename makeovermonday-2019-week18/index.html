@@ -157,12 +157,13 @@
 		.attr('id', 'credits')
 		.style('display', 'inline-block')
 		.style('float', 'left')
-		.style('width', '50%');
+		// .style('width', '50%');
 
 	d3.select('#finePrint')
 		.append('span')
 		.attr('id', 'logoSpan')
-		.style('width', '49.5%');
+		// .style('width', '49.5%')
+		;
 
 	d3.select('#credits')
 		.append('span')
@@ -186,7 +187,7 @@
 
 	d3.select('#logoSpan')
 		.style('display', 'inline-block')
-		.style('width', '49.5%')
+		// .style('width', '49.5%')
 		.style('text-align', 'right')
 		// .style('vertical-align', 'middle')
 		.style('float', 'right');
@@ -194,7 +195,7 @@
 	d3.select('#logoSpan')
 		.append('span')
 		.style('display', 'inline-block')
-		.style('padding-bottom', 3*window.innerHeight*0.01 + 'px')
+		.style('vertical-align', 'middle')
 		.text('Viz by:  ')
 
 	d3.select('#logoSpan')
