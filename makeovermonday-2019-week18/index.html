@@ -147,10 +147,37 @@
 	g.append("g")
 		.attr("class", "axis axis--x");
 
+	d3.select('body')
+		.append('div')
+		.attr('id', 'finePrint')
+		.style('display', 'inline-block');
 
-	d3.select('#credits')
+	d3.select('#finePrint')
+		.append('span')
+		.attr('id', 'credits')
 		.style('display', 'block')
 		.style('width', '50%');
+
+	d3.select('#finePrint')
+		.append('span')
+		.attr('id', 'logoSpan')
+		.style('width', '50%');
+
+	d3.select('#credits')
+		.append('span')
+		.text('Data:  ')
+		.append('a')
+		.attr('href', 'https://www.nasa.gov/mission_pages/station/spacewalks/')
+		.attr('title', 'NASA')
+		.text('NASA');
+
+	d3.select('#credits')
+		.append('span')
+		.text('Images:  Public domain');
+
+	d3.select('#credits')
+		.append('span')
+		.html('Rocket icon:  <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>');
 
 	d3.select('#logoSpan')
 		.style('width', '50%')
@@ -258,7 +285,7 @@
 		bars.exit()
 			.remove();
 
-		
+
 
 		d3.select('#credits')
 			.style('width', '50%');
@@ -295,19 +322,10 @@
 	loadData("./makeovermonday-2019-week18-data.csv");
 
 	</script>
-	<div id='finePrint' style='display: inline-block;'>
-		<span id='credits' style='display: block;'>
-			<span>
-				Data:  <a href='https://www.nasa.gov/mission_pages/station/spacewalks/' title='NASA'>NASA</a>
-			</span>
-			<span>
-				Images:  Public domain
-			</span>
-			<span>
-				Rocket icon:  <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-			</span>
+	<!-- <div id='finePrint' style='display: inline-block;'>
+		<span id='credits'>
 		</span>
 		<span id='logoSpan'>
 		</span> 
-	</div>
+	</div> -->
 </body>
