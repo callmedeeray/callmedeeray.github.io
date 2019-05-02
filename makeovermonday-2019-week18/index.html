@@ -75,10 +75,7 @@
 		.style('display', 'block')
 		.style('width', '50%');
 
-	d3.select('#finePrint')
-		.style('display', 'inline-block')
-		.append('span')
-		.attr('id', 'logoSpan')
+	d3.select('#logoSpan')
 		.style('width', '50%')
 		.text('Viz by:  ')
 		.style('text-anchor', 'end')
@@ -296,7 +293,7 @@
 	loadData("./makeovermonday-2019-week18-data.csv");
 
 	</script>
-	<div id='finePrint'>
+	<div id='finePrint' style='display: inline-block;'>
 		<span id='credits'>
 			<span>
 				Data:  <a href='' title='NASA'>NASA</a>
@@ -308,5 +305,7 @@
 				Rocket icon:  <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 			</span>
 		</span>
+		<span id='logoSpan'>
+		</span> 
 	</div>
 </body>
