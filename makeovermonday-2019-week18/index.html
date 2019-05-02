@@ -45,6 +45,27 @@
 		.axis--x path {
 			display: none;
 		}
+		#tooltip {
+			position: absolute;
+			width: auto;
+			height: auto;
+			padding: 5px;
+			background-color: lightgrey;
+			border-radius: 5px;
+			box-shadow: 2px 2px 5px darkgrey;
+			pointer-events: none;
+		}
+
+		#tooltip.hidden {
+			display: none;
+		}
+
+		#tooltip p {
+			margin: 0;
+			font-family: Verdana, Geneva, sans-serif;
+			font-size: 6pt;
+			line-height: 8pt;
+		}
 
 	</style>
 	<title>#MakeoverMonday 2019, Week 18: Spacewalks from the ISS</title>
@@ -288,7 +309,12 @@
 			.attr("x", function(d) { return x(d.year); })
 			.attr("y", function(d) { return y(d.spacewalks); })
 			.attr("width", x.bandwidth())
-			.attr("height", function(d) { return height - y(d.spacewalks); });
+			.attr("height", function(d) { return height - y(d.spacewalks); })
+			.on('mouseover', function(d) { return toolTipFunc(d); })
+			.on('mouseout', function() {
+				d3.select('#tooltip').classed('hidden', true);
+				d3.selectAll('.temporary').remove();
+			});
 
 		// UPDATE
 		bars.attr("x", function(d) { return x(d.year); })
@@ -328,6 +354,21 @@
 
 		});
 	}
+	function toolTipFunc(d) {
+		var xPos = parseFloat(d3.select(this).attr('x')) + (parseFloat(d3.select(this).attr('width'))/2),
+			yPos = parseFloat(d3.select(this).attr('y')) + (parseFloat(d3.select(this).attr('height'))/2);
+
+		d3.select('#tooltip')
+			.style('left', xPos + 'px')
+			.style('top', yPos + 'px')
+			.append('text')
+			.attr('class', 'temporary')
+			.text(function() { 
+				return d.spacewalks + ' spacewalks in ' + d.year; 
+			})
+
+		d3.select('#tooltip').classed('hidden', false);
+	};
 
 	// START!
 
@@ -335,4 +376,5 @@
 	loadData("./makeovermonday-2019-week18-data.csv");
 
 	</script>
+	<div id='tooltip'></div>
 </body>
