@@ -311,7 +311,7 @@
 			.attr("y", function(d) { return y(d.spacewalks); })
 			.attr("width", x.bandwidth())
 			.attr("height", function(d) { return height - y(d.spacewalks); })
-			.on('mouseover', function(d) { 
+			.on('mousemove', function(d) { 
 				
 				d3.select('#tooltip')
 					.style('left', d3.event.pageX-20 + 'px')
