@@ -50,7 +50,8 @@
 			width: auto;
 			height: auto;
 			padding: 5px;
-			background-color: lightgrey;
+			background-color: black;
+			backgroun-opacity: 0.4;
 			border-radius: 5px;
 			box-shadow: 2px 2px 5px darkgrey;
 			pointer-events: none;
@@ -315,6 +316,7 @@
 				d3.select('#tooltip')
 					.style('left', d3.event.pageX-20 + 'px')
 					.style('top', d3.event.pageY-20 + 'px')
+					.style('display', 'inline-block')
 					.append('text')
 					.attr('class', 'temporary')
 					.text(function() { 
@@ -322,7 +324,7 @@
 					})
 
 				d3.select('#tooltip').classed('hidden', false);
-				
+
 			})
 			.on('mouseout', function() {
 				d3.select('#tooltip').classed('hidden', true);
@@ -367,22 +369,6 @@
 
 		});
 	}
-	// function toolTipFunc(d) {
-
-	// 	// var xPos = parseFloat(d3.select(this).attr('x')) + (parseFloat(d3.select(this).attr('width'))/2),
-	// 	// 	yPos = parseFloat(d3.select(this).attr('y')) + (parseFloat(d3.select(this).attr('height'))/2);
-
-	// 	d3.select('#tooltip')
-	// 		.style('left', d3.event.pageX-20 + 'px')
-	// 		.style('top', d3.event.pageY-20 + 'px')
-	// 		.append('text')
-	// 		.attr('class', 'temporary')
-	// 		.text(function() { 
-	// 			return d.spacewalks + ' spacewalks in ' + d.year; 
-	// 		})
-
-	// 	d3.select('#tooltip').classed('hidden', false);
-	// };
 
 	// START!
 
@@ -390,5 +376,5 @@
 	loadData("./makeovermonday-2019-week18-data.csv");
 
 	</script>
-	<div id='tooltip'></div>
+	<div id='tooltip' class='hidden'></div>
 </body>
