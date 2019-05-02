@@ -55,9 +55,6 @@
 			border-radius: 5px;
 			box-shadow: 2px 2px 5px dimgrey;
 			pointer-events: none;
-			margin: 0;
-			font-size: 6pt;
-			line-height: 8pt;
 		}
 
 		#tooltip.hidden {
@@ -311,7 +308,7 @@
 				
 				d3.select('#tooltip')
 					.style('left', d3.event.pageX-20 + 'px')
-					.style('top', d3.event.pageY-20 + 'px')
+					.style('top', d3.event.pageY-30 + 'px')
 					.text(function() { 
 						return d.spacewalks + ' spacewalks in ' + d.year; 
 					})
