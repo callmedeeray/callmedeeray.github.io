@@ -64,7 +64,7 @@
 	<script>
 
 	// SETUP
-	var margin = { top: 20, right: 20, bottom: 20, left: 20 },
+	var margin = { top: 20, right: 20, bottom: 20, left: 200 },
 		y = d3.scaleBand().padding(0.3),
 		x = d3.scaleLinear(),
 		theData = undefined,
@@ -255,13 +255,14 @@
 			width = bounds.width - margin.left - margin.right,
 			height = bounds.height - margin.top - margin.bottom;
 
-		x.rangeRound([0, width]);
+		x.rangeRound([100, width]);
 		y.rangeRound([height, 0]);
 
 		g.select(".axis--y")
 			// .attr("transform", "translate(0," + height + ")")
 			.attr('fill', 'black')
 			.attr('fill-opacity', 0.8)
+			.style('text-anchor', 'end')
 			.call(d3.axisLeft(y));
 
 		g.selectAll(".tick text")
