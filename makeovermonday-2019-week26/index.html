@@ -180,7 +180,7 @@
 		.style('display', 'inline-block');
 
 	d3.select('#credits')
-		.append('span')
+		// .append('span')
 		.text('Data:  ')
 		.append('a')
 		.attr('href', 'https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html')
@@ -320,12 +320,13 @@
 				d3.select('#tooltip').classed('hidden', true);
 				// d3.selectAll('.temporary').remove();
 			})
-			.append('text')
-			.attr('class', 'barlabel')
-			.attr("fill", '#E2E9FF')
-			.text(function(d) { return d.liters; })
-			.attr('x', function(d) { return x(d.liters) + 5 })
-			.attr('y', function(d) { return y(d.country) + (y.bandwidth()/2) });
+			// .append('text')
+			// .attr('class', 'barlabel')
+			// .attr("fill", '#E2E9FF')
+			// .text(function(d) { return d.liters; })
+			// .attr('x', function(d) { return x(d.liters) + 5 })
+			// .attr('y', function(d) { return y(d.country) + (y.bandwidth()/2) })
+			;
 
 
 		// // UPDATE
@@ -344,6 +345,9 @@
 			.attr('height', window.innerHeight*0.05);
 
 		d3.select('#logoText')
+			.style('height', window.innerHeight*0.05 + 'px');
+
+		d3.select('#credits')
 			.style('height', window.innerHeight*0.05 + 'px');
 	}
 
