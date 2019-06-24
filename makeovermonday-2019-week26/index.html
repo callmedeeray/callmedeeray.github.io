@@ -258,11 +258,11 @@
 		x.rangeRound([0, width]);
 		y.rangeRound([height, 0]);
 
-		g.select(".axis--x")
-			.attr("transform", "translate(0," + height + ")")
+		g.select(".axis--y")
+			// .attr("transform", "translate(0," + height + ")")
 			.attr('fill', 'black')
 			.attr('fill-opacity', 0.8)
-			.call(d3.axisBottom(x));
+			.call(d3.axisleft(y));
 
 		g.selectAll(".tick text")
 			.attr("fill", '#E2E9FF')
@@ -304,7 +304,7 @@
 					.style('left', d3.event.pageX-20 + 'px')
 					.style('top', d3.event.pageY-30 + 'px')
 					.text(function() { 
-						return 'People drink about ' + d.liters + ' each in ' + d.country; 
+						return 'People drink about ' + d.liters + 'liters each in ' + d.country; 
 					})
 
 				d3.select('#tooltip').classed('hidden', false);
