@@ -81,42 +81,42 @@
 		.style('margin-top', margin.top + 'px')
 		;
 
-	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-	if (paddingHeight <= 1.5*drinkHeight) { 
+	// var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
+	// if (paddingHeight <= 1.5*drinkHeight) { 
 			
-		d3.select('body')
-			.append('div')
-			.attr('id', 'drinkBox')
-			.style('display', 'inline-block')
-			.style('height', '0px')
-			.style('width', '100%')
-			;
+	// 	d3.select('body')
+	// 		.append('div')
+	// 		.attr('id', 'drinkBox')
+	// 		.style('display', 'inline-block')
+	// 		.style('height', '0px')
+	// 		.style('width', '100%')
+	// 		;
 
-		var drinkBox = d3.select('#drinkBox')
-			.style('height', '0px')
-			.append('svg')
-			.attr('width', '100%')
-			.attr('height', 0)
-			.style('display', 'none');
-	}
-	else {
+	// 	var drinkBox = d3.select('#drinkBox')
+	// 		.style('height', '0px')
+	// 		.append('svg')
+	// 		.attr('width', '100%')
+	// 		.attr('height', 0)
+	// 		.style('display', 'none');
+	// }
+	// else {
 
-		d3.select('body')
-			.append('div')
-			.attr('id', 'drinkBox')
-			.style('display', 'inline-block')
-			.style('height', paddingHeight + 'px')
-			.style('width', '100%')
-			;
+	// 	d3.select('body')
+	// 		.append('div')
+	// 		.attr('id', 'drinkBox')
+	// 		.style('display', 'inline-block')
+	// 		.style('height', paddingHeight + 'px')
+	// 		.style('width', '100%')
+	// 		;
 
 
-		var drinkBox = d3.select('#drinkBox')
-			.style('height', paddingHeight + 'px')
-			.append('svg')
-			.attr('width', '100%')
-			.attr('height', paddingHeight*0.99);
+	// 	var drinkBox = d3.select('#drinkBox')
+	// 		.style('height', paddingHeight + 'px')
+	// 		.append('svg')
+	// 		.attr('width', '100%')
+	// 		.attr('height', paddingHeight*0.99);
 
-	};
+	// };
 
 	// var pathGen = d3.line().curve(d3.curveNatural),
 	// 	points = [
@@ -134,13 +134,13 @@
 	// 	.attr('d', pathGen(points))
 	// 	.attr('fill', 'none');
 
-	drinkBox.append('image')
-		.attr('xlink:href', './cocktails.png')
-		.attr('id', 'drinks')
-		.attr('width', drinkWidth)
-		.attr('height', drinkHeight)
-		.attr('x', drinkX)
-		.attr('y', drinkY);
+	// drinkBox.append('image')
+	// 	.attr('xlink:href', './cocktails.png')
+	// 	.attr('id', 'drinks')
+	// 	.attr('width', drinkWidth)
+	// 	.attr('height', drinkHeight)
+	// 	.attr('x', drinkX)
+	// 	.attr('y', drinkY);
 
 
 	var svg = d3
@@ -155,7 +155,7 @@
 		;
 
 	g.append("g")
-		.attr("class", "axis axis--x");
+		.attr("class", "axis axis--y");
 
 	d3.select('body')
 		.append('div')
@@ -221,34 +221,34 @@
 	function draw() {
 
 		svg.attr('height', window.innerHeight*0.5);
-		drinkX = window.innerWidth*0.8;
+		// drinkX = window.innerWidth*0.8;
 		// points = [
 		// 			[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
 		// 			[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
 		// 			[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
 		// 		];
 
-		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
-		if (paddingHeight <= 1.5*drinkHeight) { 
-			d3.select('#drinkBox').style('height', '0px');
-			drinkBox
-				.attr('height', 0)
-				.style('display', 'none');
-		}
-		else {
-			d3.select('#drinkBox').style('height', paddingHeight + 'px')
-			drinkBox
-				.attr('height', paddingHeight*0.99)
-				.style('display', null);
+		// paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
+		// if (paddingHeight <= 1.5*drinkHeight) { 
+		// 	d3.select('#drinkBox').style('height', '0px');
+		// 	drinkBox
+		// 		.attr('height', 0)
+		// 		.style('display', 'none');
+		// }
+		// else {
+		// 	d3.select('#drinkBox').style('height', paddingHeight + 'px')
+		// 	drinkBox
+		// 		.attr('height', paddingHeight*0.99)
+		// 		.style('display', null);
 
-			d3.select('#drinks')
-				.attr('x', drinkX)
-				.attr('y', drinkY);
+		// 	d3.select('#drinks')
+		// 		.attr('x', drinkX)
+		// 		.attr('y', drinkY);
 
-			// d3.select('#zippyBoi')
-			// 	.attr('d', pathGen(points));
+		// 	// d3.select('#zippyBoi')
+		// 	// 	.attr('d', pathGen(points));
 
-		};
+		// };
 
 
 		var bounds = svg.node().getBoundingClientRect(),
