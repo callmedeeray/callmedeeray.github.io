@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+	<style>
+		html {
+			background-color: black;
+			color: #E2E9FF;
+			font-family: "Trebuchet MS", Trebuchet, sans-serif;
+		}
+
+		#finePrint {
+			font-size: 8pt;
+			margin-left: 20px;
+			margin-right: 20px;
+			margin-top: 8px;
+		}
+
+		#finePrint a {
+			color: #E2E9FF;
+			active: white;
+			visited: #E2E9FF;
+			hover: white;
+		}
+
+		.bar {
+			fill: #585776;
+			stroke: white;
+			stroke-width: 0.3;
+			opacity: 0.9;
+		}
+
+		.bar:hover {
+			fill: #E2E9FF;
+			stroke-width: 0.6;
+			opacity: 0.7;
+		}
+
+		.axis--x path {
+			display: none;
+		}
+		#tooltip {
+			position: absolute;
+			width: auto;
+			height: auto;
+			padding: 5px;
+			background-color: #323243;
+			backgroun-opacity: 0.4;
+			border-radius: 5px;
+			box-shadow: 2px 2px 5px dimgrey;
+			pointer-events: none;
+		}
+
+		#tooltip.hidden {
+			display: none;
+		}
+
+	</style>
+	<title>#MakeoverMonday 2019, Week 26: Alcohol Consumed Per Capita, by Country </title>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+	<script>
+
+	// SETUP
+	var margin = { top: 20, right: 20, bottom: 20, left: 20 },
+		x = d3.scaleBand().padding(0.3),
+		y = d3.scaleLinear(),
+		theData = undefined,
+		drinkWidth = 47,
+		drinkHeight = 81.5,
+		drinkX = window.innerWidth*0.85,
+		drinkY = 0;
+
+	d3.select('body')
+		.append('h1')
+		.text('Alcohol Consumption Per Capita Around The World')
+		.style('display', 'inline-block')
+		.style('margin-left', margin.left + 'px')
+		.style('margin-top', margin.top + 'px')
+		;
+
+	var paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
+	if (paddingHeight <= 1.5*drinkHeight) { 
+			
+		d3.select('body')
+			.append('div')
+			.attr('id', 'drinkBox')
+			.style('display', 'inline-block')
+			.style('height', '0px')
+			.style('width', '100%')
+			;
+
+		var drinkBox = d3.select('#drinkBox')
+			.style('height', '0px')
+			.append('svg')
+			.attr('width', '100%')
+			.attr('height', 0)
+			.style('display', 'none');
+	}
+	else {
+
+		d3.select('body')
+			.append('div')
+			.attr('id', 'drinkBox')
+			.style('display', 'inline-block')
+			.style('height', paddingHeight + 'px')
+			.style('width', '100%')
+			;
+
+
+		var drinkBox = d3.select('#drinkBox')
+			.style('height', paddingHeight + 'px')
+			.append('svg')
+			.attr('width', '100%')
+			.attr('height', paddingHeight*0.99);
+
+	};
+
+	var pathGen = d3.line().curve(d3.curveNatural),
+		points = [
+					[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
+					[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
+					[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
+				];
+
+	drinkBox.append('path')
+		.attr('id', 'zippyBoi')
+		.attr('stroke-width', 10)
+		.attr('stroke', '#E2E9FF')
+		.attr('stroke-opacity', 0.55)
+		.attr('stroke-dasharray', '20,20')
+		.attr('d', pathGen(points))
+		.attr('fill', 'none');
+
+	drinkBox.append('image')
+		.attr('xlink:href', './cocktails.png')
+		.attr('id', 'drinks')
+		.attr('width', drinkWidth)
+		.attr('height', drinkHeight)
+		.attr('x', drinkX)
+		.attr('y', drinkY);
+
+
+	var svg = d3
+		.select('body')
+		.append('svg')
+		.attr('width', '100%')
+		.attr('height', window.innerHeight*0.5);
+
+	var g = svg
+		.append("g")
+		.attr("transform", "translate(" + margin.left + ",0)")
+		;
+
+	g.append("g")
+		.attr("class", "axis axis--x");
+
+	d3.select('body')
+		.append('div')
+		.attr('id', 'finePrint') ;
+
+	d3.select('#finePrint')
+		.append('span')
+		.attr('id', 'credits')
+		.style('display', 'inline-block')
+		.style('vertical-align', 'middle')
+		.style('margin-left', margin.left + 'px')
+		.style('float', 'left');
+
+	d3.select('#finePrint')
+		.append('span')
+		.attr('id', 'logoSpan')
+		.style('margin-right', margin.right + 'px')
+		.style('float', 'right')
+		.style('text-align', 'right')
+		.style('display', 'inline-block');
+
+	d3.select('#credits')
+		.append('span')
+		.text('Data:  ')
+		.append('a')
+		.attr('href', 'https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html')
+		.attr('title', 'World Atlas')
+		.text('World Atlas');
+
+	d3.select('#credits').append('br');
+
+	d3.select('#credits')
+		.append('span')
+		.text('Drink image:  Public domain');
+
+	d3.select('#credits').append('br');
+
+	// d3.select('#credits')
+	// 	.append('span')
+	// 	.html('Rocket icon:  <a href="https://www.freepik.com/?__hstc=57440181.1ff5aadd2e536796d5a44cd56c0165b6.1556551700465.1556551700465.1556551700465.1&__hssc=57440181.7.1556551700466&__hsfp=2314720911" title="Freepik">Freepik</a>, from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>. Licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>');
+
+	d3.select('#logoSpan')
+		.append('span')
+		.attr('id', 'logoText')
+		.style('height', window.innerHeight*0.05 + 'px')
+		.style('display', 'inline-block')
+		.style('vertical-align', 'middle')
+		.text('Viz by:  ');
+
+	d3.select('#logoSpan')
+		.append('img')
+		.style('display', 'inline-block')
+		.attr('id', 'logo')
+		.attr('href', 'https://twitter.com/callmedeeray')
+		.attr('src', '../CallMeDeeray_Logo_Color.png')
+		.attr('height', window.innerHeight*0.05)
+		.style('opacity', 0.85);
+
+
+
+	// DRAWING
+
+	function draw() {
+
+		svg.attr('height', window.innerHeight*0.5);
+		drinkX = window.innerWidth*0.8;
+		points = [
+					[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
+					[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
+					[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
+				];
+
+		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
+		if (paddingHeight <= 1.5*drinkHeight) { 
+			d3.select('#drinkBox').style('height', '0px');
+			drinkBox
+				.attr('height', 0)
+				.style('display', 'none');
+		}
+		else {
+			d3.select('#drinkBox').style('height', paddingHeight + 'px')
+			drinkBox
+				.attr('height', paddingHeight*0.99)
+				.style('display', null);
+
+			d3.select('#littleman')
+				.attr('x', drinkX)
+				.attr('y', drinkY);
+
+			d3.select('#zippyBoi')
+				.attr('d', pathGen(points));
+
+		};
+
+
+		var bounds = svg.node().getBoundingClientRect(),
+			width = bounds.width - margin.left - margin.right,
+			height = bounds.height - margin.top - margin.bottom;
+
+		x.rangeRound([0, width]);
+		y.rangeRound([height, 0]);
+
+		g.select(".axis--x")
+			.attr("transform", "translate(0," + height + ")")
+			.attr('fill', 'black')
+			.attr('fill-opacity', 0.8)
+			.call(d3.axisBottom(x));
+
+		g.selectAll(".tick text")
+			.attr("fill", '#E2E9FF')
+			.attr('font-size', '8pt')
+			.attr('font-weight', 'bold')
+			.attr('dy', '10.1pt');
+
+		if (window.innerWidth <= 675) {
+			g.selectAll('.tick text')
+				.attr('transform', 'rotate(-90)')
+				.style("text-anchor", "end")
+				.attr("dx", "-0.8em")
+				.attr("dy", "-0.5em")
+				;
+		}
+		else { 
+			g.selectAll('.tick text')
+				.attr('transform', null)
+				.style("text-anchor", "middle")
+				.attr("dx", null)
+				.attr("dy", '10.1pt') 
+				;
+		};
+
+		var bars = g.selectAll(".bar")
+			.data(theData);
+
+		// ENTER
+		bars
+			.enter().append("rect")
+			.attr("class", "bar")
+			.attr("x", function(d) { return x(d.year); })
+			.attr("y", function(d) { return y(d.spacewalks); })
+			.attr("width", x.bandwidth())
+			.attr("height", function(d) { return height - y(d.spacewalks); })
+			.on('mousemove', function(d) { 
+				
+				d3.select('#tooltip')
+					.style('left', d3.event.pageX-20 + 'px')
+					.style('top', d3.event.pageY-30 + 'px')
+					.text(function() { 
+						return d.spacewalks + ' spacewalks in ' + d.year; 
+					})
+
+				d3.select('#tooltip').classed('hidden', false);
+
+			})
+			.on('mouseout', function() {
+				d3.select('#tooltip').classed('hidden', true);
+				// d3.selectAll('.temporary').remove();
+			});
+
+		// UPDATE
+		bars.attr("x", function(d) { return x(d.year); })
+			.attr("y", function(d) { return y(d.spacewalks); })
+			.attr("width", x.bandwidth())
+			.attr("height", function(d) { return height - y(d.spacewalks); });
+
+		// EXIT
+		bars.exit()
+			.remove();
+
+
+		d3.select('#logo')
+			.attr('height', window.innerHeight*0.05);
+
+		d3.select('#logoText')
+			.style('height', window.innerHeight*0.05 + 'px');
+	}
+
+	// LOADING DATA
+
+	function loadData(csvFile) {
+
+		d3.csv(csvFile, function(d) {
+			d.spacewalks = +d.spacewalks
+			return d;
+
+		}, function(error, data) {
+			if (error) throw error;
+
+			theData = data;
+
+			x.domain(theData.map(function(d) { return d.year; }));
+			y.domain([0, d3.max(theData, function(d) { return d.spacewalks; })]);
+
+			draw();
+
+		});
+	}
+
+	// START!
+
+	window.addEventListener("resize", draw);
+	loadData("./makeovermonday-2019-week18-data.csv");
+
+	</script>
+	<div id='tooltip' class='hidden'></div>
+</body>
