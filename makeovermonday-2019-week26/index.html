@@ -8,6 +8,12 @@
 			color: #E2E9FF;
 			font-family: "Trebuchet MS", Trebuchet, sans-serif;
 		}
+		.barlabel {
+			font-size: 8pt;
+			text-anchor: 'start';
+			color: #E2E9FF;
+			font-family: "Trebuchet MS", Trebuchet, sans-serif;
+		}
 
 		#finePrint {
 			font-size: 8pt;
@@ -315,11 +321,10 @@
 				// d3.selectAll('.temporary').remove();
 			})
 			.append('text')
+			.attr('class', 'barlabel')
 			.text(function(d) { return d.liters; })
 			.attr('x', function(d) { return x(d.liters) + 5 })
-			.attr('y', function(d) { return y(d.country) + (y.bandwidth()/2) })
-			.attr('font-size', '8pt')
-			.style('text-anchor', 'start');
+			.attr('y', function(d) { return y(d.country) + (y.bandwidth()/2) });
 
 
 		// // UPDATE
