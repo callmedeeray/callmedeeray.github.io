@@ -262,13 +262,14 @@
 			// .attr("transform", "translate(0," + height + ")")
 			.attr('fill', 'black')
 			.attr('fill-opacity', 0.8)
-			.call(d3.axisleft(y));
+			.call(d3.axisLeft(y));
 
 		g.selectAll(".tick text")
 			.attr("fill", '#E2E9FF')
 			.attr('font-size', '8pt')
 			.attr('font-weight', 'bold')
-			.attr('dy', '10.1pt');
+			// .attr('dy', '10.1pt')
+			;
 
 		if (window.innerWidth <= 675) {
 			g.selectAll('.tick text')
