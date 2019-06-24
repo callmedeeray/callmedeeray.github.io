@@ -45,6 +45,7 @@
 		.axis--x path {
 			display: none;
 		}
+
 		#tooltip {
 			position: absolute;
 			width: auto;
@@ -62,7 +63,7 @@
 		}
 
 	</style>
-	<title>#MakeoverMonday 2019, Week 26: Alcohol Consumed Per Capita, by Country </title>
+	<title>#MakeoverMonday 2019, Week 26: Top Alcohol-Consuming Countries </title>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
@@ -348,6 +349,7 @@
 			.style('height', window.innerHeight*0.05 + 'px');
 
 		d3.select('#credits')
+			.style('margin-top', '10px')
 			.style('height', window.innerHeight*0.05 + 'px');
 	}
 
