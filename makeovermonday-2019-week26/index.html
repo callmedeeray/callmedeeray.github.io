@@ -24,7 +24,7 @@
 		}
 
 		.bar {
-			fill: royalblue;
+			fill: slategrey;
 			stroke: white;
 			stroke-width: 0.3;
 			opacity: 0.8;
@@ -202,10 +202,11 @@
 		.text('Viz by:  ');
 
 	d3.select('#logoSpan')
+		.append('a')
+		.attr('href', 'https://twitter.com/callmedeeray')
 		.append('img')
 		.style('display', 'inline-block')
 		.attr('id', 'logo')
-		.attr('href', 'https://twitter.com/callmedeeray')
 		.attr('src', '../CallMeDeeray_Logo_Color.png')
 		.attr('height', window.innerHeight*0.05)
 		.style('opacity', 0.85);
