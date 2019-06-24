@@ -64,14 +64,14 @@
 	<script>
 
 	// SETUP
-	var margin = { top: 20, right: 20, bottom: 20, left: 20 },
+	var margin = { top: 20, right: 30, bottom: 20, left: 20 },
 		y = d3.scaleBand().padding(0.3),
 		x = d3.scaleLinear(),
 		theData = undefined;
 
 	d3.select('body')
 		.append('h1')
-		.text('Alcohol Consumption Per Capita Around The World')
+		.text('Liters of Pure Alcohol Consumption Per Capita Around The World')
 		.style('display', 'inline-block')
 		.style('margin-left', margin.left + 'px')
 		.style('margin-top', margin.top + 'px')
@@ -204,6 +204,7 @@
 	d3.select('#logoSpan')
 		.append('a')
 		.attr('href', 'https://twitter.com/callmedeeray')
+		.attr('target', "_blank")
 		.append('img')
 		.style('display', 'inline-block')
 		.attr('id', 'logo')
@@ -312,18 +313,25 @@
 			.on('mouseout', function() {
 				d3.select('#tooltip').classed('hidden', true);
 				// d3.selectAll('.temporary').remove();
-			});
+			})
+			.append('text')
+			.text(function(d) { retrun d.liters; })
+			.attr('x', function(d) { return x(d.liters) + 5 })
+			.attr('y', function(d) { return y(d.country) + (y.bandwidth()/2) })
+			.attr('font-size', '8pt')
+			.style('text-anchor', 'start');
 
-		// UPDATE
-		bars
-			.attr("y", function(d) { return y(d.country); })
-			.attr("x", 0)
-			.attr("height", y.bandwidth())
-			.attr("width", function(d) { return x(d.liters); })
 
-		// EXIT
-		bars.exit()
-			.remove();
+		// // UPDATE
+		// bars
+		// 	.attr("y", function(d) { return y(d.country); })
+		// 	.attr("x", 0)
+		// 	.attr("height", y.bandwidth())
+		// 	.attr("width", function(d) { return x(d.liters); })
+
+		// // EXIT
+		// bars.exit()
+		// 	.remove();
 
 
 		d3.select('#logo')
