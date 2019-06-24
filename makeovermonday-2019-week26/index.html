@@ -24,14 +24,14 @@
 		}
 
 		.bar {
-			fill: #585776;
+			fill: grey;
 			stroke: white;
 			stroke-width: 0.3;
 			opacity: 0.9;
 		}
 
 		.bar:hover {
-			fill: #E2E9FF;
+			fill: silver;
 			stroke-width: 0.6;
 			opacity: 0.7;
 		}
@@ -248,7 +248,7 @@
 
 
 		var bounds = svg.node().getBoundingClientRect(),
-			width = bounds.width - margin.left - margin.right,
+			width = bounds.width - margin.left - 100  - margin.right,
 			height = bounds.height - margin.top - margin.bottom;
 
 		x.rangeRound([100, width]);
