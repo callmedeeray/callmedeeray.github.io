@@ -304,7 +304,7 @@
 					.style('left', d3.event.pageX-20 + 'px')
 					.style('top', d3.event.pageY-30 + 'px')
 					.text(function() { 
-						return 'People drink about ' d.liters + ' each in ' + d.country; 
+						return 'People drink about ' + d.liters + ' each in ' + d.country; 
 					})
 
 				d3.select('#tooltip').classed('hidden', false);
