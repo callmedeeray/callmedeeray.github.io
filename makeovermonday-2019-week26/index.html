@@ -329,16 +329,16 @@
 			;
 
 
-		// // UPDATE
-		// bars
-		// 	.attr("y", function(d) { return y(d.country); })
-		// 	.attr("x", 0)
-		// 	.attr("height", y.bandwidth())
-		// 	.attr("width", function(d) { return x(d.liters); })
+		// UPDATE
+		bars
+			.attr("y", function(d) { return y(d.country); })
+			.attr("x", 0)
+			.attr("height", y.bandwidth())
+			.attr("width", function(d) { return x(d.liters); })
 
-		// // EXIT
-		// bars.exit()
-		// 	.remove();
+		// EXIT
+		bars.exit()
+			.remove();
 
 
 		d3.select('#logo')
