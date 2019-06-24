@@ -306,7 +306,7 @@
 					.style('left', d3.event.pageX-20 + 'px')
 					.style('top', d3.event.pageY-30 + 'px')
 					.text(function() { 
-						return 'People drink about ' + d.liters + 'liters each in ' + d.country; 
+						return 'People drink about ' + d.liters + ' liters each in ' + d.country; 
 					})
 
 				d3.select('#tooltip').classed('hidden', false);
@@ -347,7 +347,7 @@
 		}, function(error, data) {
 			if (error) throw error;
 
-			theData = data;
+			theData = data.sort(function(e,f) { return d3.ascending(e.rank, f.rank) });
 
 			y.domain(theData.map(function(d) { return d.country; }));
 			x.domain([0, d3.max(theData, function(d) { return d.liters; })]);
