@@ -118,21 +118,21 @@
 
 	};
 
-	var pathGen = d3.line().curve(d3.curveNatural),
-		points = [
-					[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
-					[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
-					[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
-				];
+	// var pathGen = d3.line().curve(d3.curveNatural),
+	// 	points = [
+	// 				[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
+	// 				[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
+	// 				[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
+	// 			];
 
-	drinkBox.append('path')
-		.attr('id', 'zippyBoi')
-		.attr('stroke-width', 10)
-		.attr('stroke', '#E2E9FF')
-		.attr('stroke-opacity', 0.55)
-		.attr('stroke-dasharray', '20,20')
-		.attr('d', pathGen(points))
-		.attr('fill', 'none');
+	// drinkBox.append('path')
+	// 	.attr('id', 'zippyBoi')
+	// 	.attr('stroke-width', 10)
+	// 	.attr('stroke', '#E2E9FF')
+	// 	.attr('stroke-opacity', 0.55)
+	// 	.attr('stroke-dasharray', '20,20')
+	// 	.attr('d', pathGen(points))
+	// 	.attr('fill', 'none');
 
 	drinkBox.append('image')
 		.attr('xlink:href', './cocktails.png')
@@ -222,11 +222,11 @@
 
 		svg.attr('height', window.innerHeight*0.5);
 		drinkX = window.innerWidth*0.8;
-		points = [
-					[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
-					[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
-					[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
-				];
+		// points = [
+		// 			[2*margin.left, paddingHeight*0.75], [window.innerWidth/4, paddingHeight/4],
+		// 			[4*window.innerWidth/7, paddingHeight*0.8], [4*window.innerWidth/7, paddingHeight/6],
+		// 			[window.innerWidth/2, paddingHeight/3], [drinkX - drinkWidth/2, drinkY + drinkHeight/2]
+		// 		];
 
 		paddingHeight = window.innerHeight - d3.select('h1')._groups[0][0].clientHeight - (0.7*window.innerHeight);
 		if (paddingHeight <= 1.5*drinkHeight) { 
@@ -241,12 +241,12 @@
 				.attr('height', paddingHeight*0.99)
 				.style('display', null);
 
-			d3.select('#littleman')
+			d3.select('#drinks')
 				.attr('x', drinkX)
 				.attr('y', drinkY);
 
-			d3.select('#zippyBoi')
-				.attr('d', pathGen(points));
+			// d3.select('#zippyBoi')
+			// 	.attr('d', pathGen(points));
 
 		};
 
@@ -294,17 +294,17 @@
 		bars
 			.enter().append("rect")
 			.attr("class", "bar")
-			.attr("x", function(d) { return x(d.year); })
-			.attr("y", function(d) { return y(d.spacewalks); })
-			.attr("width", x.bandwidth())
-			.attr("height", function(d) { return height - y(d.spacewalks); })
+			.attr("y", function(d) { return y(d.country); })
+			.attr("x", 0)
+			.attr("height", y.bandwidth())
+			.attr("width", function(d) { return x(d.liters); })
 			.on('mousemove', function(d) { 
 				
 				d3.select('#tooltip')
 					.style('left', d3.event.pageX-20 + 'px')
 					.style('top', d3.event.pageY-30 + 'px')
 					.text(function() { 
-						return d.spacewalks + ' spacewalks in ' + d.year; 
+						return 'People drink about ' d.liters + ' each in ' + d.country; 
 					})
 
 				d3.select('#tooltip').classed('hidden', false);
@@ -316,10 +316,11 @@
 			});
 
 		// UPDATE
-		bars.attr("x", function(d) { return x(d.year); })
-			.attr("y", function(d) { return y(d.spacewalks); })
-			.attr("width", x.bandwidth())
-			.attr("height", function(d) { return height - y(d.spacewalks); });
+		bars
+			.attr("y", function(d) { return y(d.country); })
+			.attr("x", 0)
+			.attr("height", y.bandwidth())
+			.attr("width", function(d) { return x(d.liters); })
 
 		// EXIT
 		bars.exit()
@@ -338,7 +339,7 @@
 	function loadData(csvFile) {
 
 		d3.csv(csvFile, function(d) {
-			d.spacewalks = +d.spacewalks
+			d.liters = +d.liters
 			return d;
 
 		}, function(error, data) {
@@ -346,8 +347,8 @@
 
 			theData = data;
 
-			x.domain(theData.map(function(d) { return d.year; }));
-			y.domain([0, d3.max(theData, function(d) { return d.spacewalks; })]);
+			y.domain(theData.map(function(d) { return d.country; }));
+			x.domain([0, d3.max(theData, function(d) { return d.liters; })]);
 
 			draw();
 
