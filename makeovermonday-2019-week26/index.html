@@ -315,7 +315,7 @@
 				// d3.selectAll('.temporary').remove();
 			})
 			.append('text')
-			.text(function(d) { retrun d.liters; })
+			.text(function(d) { return d.liters; })
 			.attr('x', function(d) { return x(d.liters) + 5 })
 			.attr('y', function(d) { return y(d.country) + (y.bandwidth()/2) })
 			.attr('font-size', '8pt')
