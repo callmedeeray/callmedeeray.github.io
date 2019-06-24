@@ -347,7 +347,7 @@
 		}, function(error, data) {
 			if (error) throw error;
 
-			theData = data.sort(function(e,f) { return d3.descending(e.liters, f.liters) });
+			theData = data.sort(function(e,f) { return d3.descending(f.liters, e.liters) });
 
 			y.domain(theData.map(function(d) { return d.country; }));
 			x.domain([0, d3.max(theData, function(d) { return d.liters; })]);
