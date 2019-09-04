@@ -73,7 +73,7 @@
 </head>
 
 <body>
-	<script type="text/babel">
+	<script>
 
 	// SETUP
 	var margin = { top: 20, right: 30, bottom: 20, left: 20 },
@@ -103,9 +103,9 @@
 	g.append("g")
 		.attr("class", "axis axis--y");
 
-	// d3.select('body')
-	// 	.append('div')
-	// 	.attr('id', 'finePrint') ;
+	d3.select('body')
+		.append('div')
+		.attr('id', 'footer') ;
 
 	// d3.select('#finePrint')
 	// 	.append('span')
@@ -150,7 +150,6 @@
 	// 	.attr('height', window.innerHeight*0.05)
 	// 	.style('opacity', 0.85);
 
-	ReactDOM.render(<MakeoverMondayFooter dataTitle='World Atlas' dataLink='https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html' height={window.innerHeight*0.05} background='dark' />, d3.select('body'));
 
 	// DRAWING
 

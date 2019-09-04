@@ -36,7 +36,7 @@ class MakeoverMondayFooter extends React.Component {
   }
 }
 
-// ReactDOM.render(
-//   <MakeoverMondayFooter dataTitle='' dataLink='' height={window.innerHeight*0.05} background='light' />,
-//   document.getElementById('root')
-// );
+ReactDOM.render(
+  <MakeoverMondayFooter dataTitle='' dataLink='' height={window.innerHeight*0.05} background='light' />,
+  document.getElementById('footer')
+);
