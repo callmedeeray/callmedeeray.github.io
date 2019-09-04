@@ -64,7 +64,11 @@
 
 	</style>
 	<title>#MakeoverMonday 2019, Week 26: Top Alcohol-Consuming Countries </title>
+	<link href="MakeoverMondayFooter.css" rel="stylesheet" type="text/css">
 	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	<script src="../MakeoverMondayFooter.js"></script>
 </head>
 
 <body>
@@ -98,54 +102,54 @@
 	g.append("g")
 		.attr("class", "axis axis--y");
 
-	d3.select('body')
-		.append('div')
-		.attr('id', 'finePrint') ;
+	// d3.select('body')
+	// 	.append('div')
+	// 	.attr('id', 'finePrint') ;
 
-	d3.select('#finePrint')
-		.append('span')
-		.attr('id', 'credits')
-		.style('display', 'inline-block')
-		.style('vertical-align', 'middle')
-		.style('margin-left', margin.left + 'px')
-		.style('float', 'left');
+	// d3.select('#finePrint')
+	// 	.append('span')
+	// 	.attr('id', 'credits')
+	// 	.style('display', 'inline-block')
+	// 	.style('vertical-align', 'middle')
+	// 	.style('margin-left', margin.left + 'px')
+	// 	.style('float', 'left');
 
-	d3.select('#finePrint')
-		.append('span')
-		.attr('id', 'logoSpan')
-		.style('margin-right', margin.right + 'px')
-		.style('float', 'right')
-		.style('text-align', 'right')
-		.style('display', 'inline-block');
+	// d3.select('#finePrint')
+	// 	.append('span')
+	// 	.attr('id', 'logoSpan')
+	// 	.style('margin-right', margin.right + 'px')
+	// 	.style('float', 'right')
+	// 	.style('text-align', 'right')
+	// 	.style('display', 'inline-block');
 
-	d3.select('#credits')
-		// .append('span')
-		.text('Data:  ')
-		.append('a')
-		.attr('href', 'https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html')
-		.attr('title', 'World Atlas')
-		.text('World Atlas');
+	// d3.select('#credits')
+	// 	// .append('span')
+	// 	.text('Data:  ')
+	// 	.append('a')
+	// 	.attr('href', 'https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html')
+	// 	.attr('title', 'World Atlas')
+	// 	.text('World Atlas');
 
-	d3.select('#logoSpan')
-		.append('span')
-		.attr('id', 'logoText')
-		.style('height', window.innerHeight*0.05 + 'px')
-		.style('display', 'inline-block')
-		.style('vertical-align', 'middle')
-		.text('Viz by:  ');
+	// d3.select('#logoSpan')
+	// 	.append('span')
+	// 	.attr('id', 'logoText')
+	// 	.style('height', window.innerHeight*0.05 + 'px')
+	// 	.style('display', 'inline-block')
+	// 	.style('vertical-align', 'middle')
+	// 	.text('Viz by:  ');
 
-	d3.select('#logoSpan')
-		.append('a')
-		.attr('href', 'https://twitter.com/callmedeeray')
-		.attr('target', "_blank")
-		.append('img')
-		.style('display', 'inline-block')
-		.attr('id', 'logo')
-		.attr('src', '../CallMeDeeray_Logo_Color.png')
-		.attr('height', window.innerHeight*0.05)
-		.style('opacity', 0.85);
+	// d3.select('#logoSpan')
+	// 	.append('a')
+	// 	.attr('href', 'https://twitter.com/callmedeeray')
+	// 	.attr('target', "_blank")
+	// 	.append('img')
+	// 	.style('display', 'inline-block')
+	// 	.attr('id', 'logo')
+	// 	.attr('src', '../CallMeDeeray_Logo_Color.png')
+	// 	.attr('height', window.innerHeight*0.05)
+	// 	.style('opacity', 0.85);
 
-
+	ReactDOM.render(<MakeoverMondayFooter dataTitle='World Atlas' dataLink='https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html' height={window.innerHeight*0.05} background='dark' />, d3.select('body'));
 
 	// DRAWING
 
