@@ -1,6 +1,6 @@
 function Logo(props) {
     return (
-      <a href='https://public.tableau.com/profile/desiree.abbott#!/' title='My Tableau Public Portfolio'>
+      <a href='https://public.tableau.com/profile/desiree.abbott#!/' title='My Tableau Public Portfolio' target="_blank">
         <img src="https://raw.githubusercontent.com/callmedeeray/callmedeeray.github.io/master/CallMeDeeray_Logo_Color.png" height={props.height + 'px'}/>
       </a>
     );
@@ -9,7 +9,7 @@ function Logo(props) {
 function Credits(props) {
   return (
     <span className={"labelText-" + props.background} style={props.spanStyle}>
-      Data:  <a href={props.dataLink} title={props.dataTitle}>{props.dataTitle}</a>
+      Data:  <a href={props.dataLink} title={props.dataTitle} target="_blank">{props.dataTitle}</a>
     </span>
   );
 }
