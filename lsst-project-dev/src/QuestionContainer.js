@@ -14,7 +14,6 @@ class QuestionContainer extends Component {
 	makeQuestions() {
 		let qList = [];
 		questions.forEach(function(d) {
-			console.log(d);
 			if (d.type === "short-answer") {
 				qList.push(<ShortAnswer key={d.questionName} info={d} />)
 			}

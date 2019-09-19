@@ -12,8 +12,8 @@
 		 	{
 		 	  "type": "fill-in-the-blank",
 		 	  "questionName": "Fill-in-the-blank Example",
-		 	  "questionText_beforeBlank": "Realm of the galaxies muse about made in the interiors of",
-		 	  "questionText_afterBlank": "."
+		 	  "questionText_BeforeBlank": "Realm of the galaxies muse about made in the interiors of",
+		 	  "questionText_AfterBlank": "."
 		 	},
 		 	{
 		 	  "type": "multiple-choice",
