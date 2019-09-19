@@ -18,7 +18,12 @@ function App() {
 				<div className='container-info'>
 					<InfoContainer />
 				</div>
+				<hr />
+				<div className='container-qas'>
+
+				</div>
 			</main>
+			<footer className="footer-primary"></footer>
 		</div>
 	);
 }
