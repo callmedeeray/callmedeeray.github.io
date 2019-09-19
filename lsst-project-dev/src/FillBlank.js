@@ -1,23 +1,26 @@
+import React from 'react';
+
+
 function FillBlank(props) {
-	// props = {'questionText-beforeBlank': 'sometext', 'questionText-afterBlank': 'somemoretext', 'questionName': 'somename'}
+	// props = {'questionText_beforeBlank': 'sometext', 'questionText_afterBlank': 'somemoretext', 'questionName': 'somename'}
 	return (
 		<div className="qa fill-in-the-blank">
 			<div className="question">
-				<label for={props.questionName} className="screen-reader-only">
-					Fill in the blank: {props.questionText-BeforeBlank} BLANK {props.questionText-AfterBlank}
+				<label htmlFor={props.info.questionName} className="screen-reader-only">
+					Fill in the blank: {props.info.questionText_BeforeBlank} BLANK {props.info.questionText_AfterBlank}
 				</label>
 				<span aria-hidden role='presentation'>
-					{props.questionText-BeforeBlank}
+					{props.info.questionText_BeforeBlank}
 				</span>
 				<div className="answer text-input">
 					<input 
 						type="text"
-						name={props.questionName}
-						id={props.questionName}
+						name={props.info.questionName}
+						id={props.info.questionName}
 					/>
 				</div>
 				<span aria-hidden role='presentation'>
-					{props.questionText-AfterBlank}
+					{props.info.questionText_AfterBlank}
 				</span>
 			</div>
 		</div>

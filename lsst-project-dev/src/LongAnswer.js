@@ -1,14 +1,17 @@
+import React from 'react';
+
+
 function LongAnswer(props) {
 	// props = {'questionText': 'sometext', 'questionName': 'somename'}
 	return (
 		<div className="qa long-answer">
-			<label for={props.questionName} className="question">
-				{props.questionText}
+			<label htmlFor={props.info.questionName} className="question">
+				{props.info.questionText}
 			</label>
 			<div className="answer text-input">
 				<textarea 
-					name={props.questionName}
-					id={props.questionName}
+					name={props.info.questionName}
+					id={props.info.questionName}
 				/>
 			</div>
 		</div>

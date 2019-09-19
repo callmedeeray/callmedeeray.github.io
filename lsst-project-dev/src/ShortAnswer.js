@@ -1,15 +1,17 @@
+import React from 'react';
+
 function ShortAnswer(props) {
 	// props = {'questionText': 'sometext', 'questionName': 'somename'}
 	return (
 		<div className="qa short-answer">
-			<label for={props.questionName} className="question">
-				{props.questionText}
+			<label htmlFor={props.info.questionName} className="question">
+				{props.info.questionText}
 			</label>
 			<div className="answer text-input">
 				<input 
 					type="text"
-					name={props.questionName}
-					id={props.questionName}
+					name={props.info.questionName}
+					id={props.info.questionName}
 				/>
 			</div>
 		</div>

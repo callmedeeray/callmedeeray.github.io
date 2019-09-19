@@ -18,8 +18,8 @@ class InfoContainer extends Component {
 
 	createInfo() {
 		let blocks = [];
-		text.forEach(function(d) {
-			blocks.push(<p>{d}</p>);
+		text.forEach(function(d,i) {
+			blocks.push(<p key={i}>{d}</p>);
 		})
 
 		return blocks;

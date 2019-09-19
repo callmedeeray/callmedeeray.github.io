@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import InfoContainer from './InfoContainer';
+import QuestionContainer from './QuestionContainer';
 
 function App() {
 	return (
@@ -20,7 +21,8 @@ function App() {
 				</div>
 				<hr />
 				<div className='container-qas'>
-
+					<h2>Questions</h2>
+					<QuestionContainer />
 				</div>
 			</main>
 			<footer className="footer-primary"></footer>

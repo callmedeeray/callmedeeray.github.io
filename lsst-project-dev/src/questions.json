@@ -1,0 +1,26 @@
+{
+	"questions": 
+		[
+			{ "type": "short-answer",
+			  "questionName": "Short Answer Example",
+		 	  "questionText": "Laws of physics dream of the mind's eye a still more glorious dawn awaits?" 
+		 	},
+		 	{ "type": "long-answer",
+		 	  "questionName": "Long Answer Example",
+		 	  "questionText": "Laws of physics dream of the mind's eye a still more glorious dawn awaits?"
+		 	},
+		 	{
+		 	  "type": "fill-in-the-blank",
+		 	  "questionName": "Fill-in-the-blank Example",
+		 	  "questionText_beforeBlank": "Realm of the galaxies muse about made in the interiors of",
+		 	  "questionText_afterBlank": "."
+		 	},
+		 	{
+		 	  "type": "multiple-choice",
+		 	  "questionName": "Multiple Choice Example",
+		 	  "questionText": "At the edge of forever take root and flourish billions upon billions intelligent beings stirred by starlight the carbon in our apple pies. Tendrils of gossamer clouds Orion's sword a mote of dust suspended in a sunbeam?",
+		 	  "answerList": ["Cosmic ocean", "Drake equation", "Star stuff"]
+		 	}
+
+		]
+}
