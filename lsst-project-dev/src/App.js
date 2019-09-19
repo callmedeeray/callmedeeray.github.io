@@ -16,7 +16,7 @@ function App() {
 				</div>
 			</header>
 			<main className='container-main'>
-				<div className='container-info'>
+				<div className='container-info' id='info'>
 					<InfoContainer />
 				</div>
 				<hr />
