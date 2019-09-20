@@ -1,14 +1,17 @@
 import React from 'react';
 
 function MultipleChoice(props) {
-	// props = {'questionText': 'sometext', 'answerList': ['answer1', 'answer2', 'answer3'], 'questionName': 'somename'}
-	
+	// info = {
+	// "type": "multiple-choice",
+	// "questionName": "Multiple Choice Example",
+	// "questionText": "At the edge of forever take root and flourish billions upon billions intelligent beings stirred by starlight the carbon in our apple pies. Tendrils of gossamer clouds Orion's sword a mote of dust suspended in a sunbeam?",
+	// "answerList": ["Cosmic ocean", "Drake equation", "Star stuff"]
+
 	function answerList() {
 		let answers = [];
 		props.info.answerList.forEach(function(d,i) {
 			answers.push(<option key={d} value={i}>{d}</option>)
 		});
-		//<option selected disabled aria-hidden role='presentation'>Select the best answer</option>
 					
 		return answers;
 	}
@@ -20,6 +23,7 @@ function MultipleChoice(props) {
 			</label>
 			<div className="answer select">
 				<select name={props.info.questionName} id={props.info.questionName} defaultValue='Select the best answer'>
+					<option selected disabled>Select the best answer</option>
 					{answerList()}
 				</select>
 			</div>	

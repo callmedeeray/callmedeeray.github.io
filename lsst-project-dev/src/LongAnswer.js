@@ -2,7 +2,11 @@ import React from 'react';
 
 
 function LongAnswer(props) {
-	// props = {'questionText': 'sometext', 'questionName': 'somename'}
+	// info = {
+	// "type": "long-answer",
+	// "questionName": "Long Answer Example",
+	// "questionText": "Laws of physics dream of the mind's eye a still more glorious dawn awaits?"
+
 	return (
 		<div className="qa long-answer">
 			<label htmlFor={props.info.questionName} className="question">

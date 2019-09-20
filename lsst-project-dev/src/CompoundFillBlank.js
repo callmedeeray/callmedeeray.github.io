@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function FillBlank(props) {
+function CompoundFillBlank(props) {
 	// info = {
 	// 	"type": "fill-in-the-blank",
 	// 	"questionName": "Fill-in-the-blank Example",
@@ -15,7 +15,7 @@ function FillBlank(props) {
 				question.push(<span key={props.info.questionName + 'question'+d} aria-hidden role='presentation'>{d}</span>)
 			}
 			else {
-				question.push(<div key={props.info.questionName + 'blank'+bla} className="answer text-input"><input type="text" name={props.info.questionName} id={props.info.questionName}	/></div>)
+				question.push(<div key={props.info.questionName + i + 'blank'+ bla} className="answer text-input"><input type="text" name={props.info.questionName} id={props.info.questionName}	/></div>)
 				bla++;
 			}
 		})
@@ -34,4 +34,4 @@ function FillBlank(props) {
 	)
 }
 
-export default FillBlank;
+export default CompoundFillBlank;

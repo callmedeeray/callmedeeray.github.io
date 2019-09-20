@@ -1,7 +1,10 @@
 import React from 'react';
 
 function ShortAnswer(props) {
-	// props = {'questionText': 'sometext', 'questionName': 'somename'}
+	// info = {
+	// "type": "short-answer",
+	// "questionName": "Short Answer Example",
+	//  "questionText": "Laws of physics dream of the mind's eye a still more glorious dawn awaits?" 
 	return (
 		<div className="qa short-answer">
 			<label htmlFor={props.info.questionName} className="question">

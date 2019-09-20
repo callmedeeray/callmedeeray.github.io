@@ -4,6 +4,8 @@ import ShortAnswer from './ShortAnswer';
 import LongAnswer from './LongAnswer';
 import FillBlank from './FillBlank';
 import MultipleChoice from './MultipleChoice';
+import InlineMultipleChoice from './InlineMultipleChoice';
+import CompoundFillBlank from './CompoundFillBlank';
 
 class QuestionContainer extends Component {
 	constructor(props) {
@@ -23,8 +25,14 @@ class QuestionContainer extends Component {
 			else if (d.type === "multiple-choice") {
 				qList.push(<MultipleChoice key={d.questionName} info={d} />)
 			}
+			else if (d.type === "inline-multiple-choice") {
+				qList.push(<InlineMultipleChoice key={d.questionName} info={d} />)
+			}
 			else if (d.type === "fill-in-the-blank") {
 				qList.push(<FillBlank key={d.questionName} info={d} />)
+			}
+			else if (d.type === "compound-fill-in-the-blank") {
+				qList.push(<CompoundFillBlank key={d.questionName} info={d} />)
 			}
 		})
 		return qList;
