@@ -20,15 +20,15 @@ function InlineMultipleChoice(props) {
 
 	function makeQuestion() {
 		let question = [];
+		let sel = 0;
 		props.info.questionText.forEach(function(d,i) {
-			let sel = 0;
 			if (d !== "SELECT") {
 				question.push(<span key={props.info.questionName + 'question'+d}>{d}</span>)
 			}
 			else {
 				question.push(
 					<div className="answer select" key={props.info.questionName + i +'select'+sel}>
-						<select name={props.info.questionName} id={props.info.questionName} defaultValue='Select the best answer'>
+						<select>
 							<option selected disabled>Select the best answer</option>
 							{answerList(sel)}
 						</select>
