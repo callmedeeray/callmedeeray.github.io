@@ -646,7 +646,18 @@ strong {
 .qas {
   margin-top: 1.4em; }
   .qas .qa + .qa {
-    margin-top: 2.8em; }
+    margin-top: 2.8em; 
+  }
+  .qa {
+    opacity: 0.3;   
+    padding: 15px; 
+  }
+  .active-qa {
+    opacity: 1;
+    border-style: outset;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 1px;
+  }
 
 .question, label.question {
   display: block; }

@@ -4,6 +4,13 @@ import InfoContainer from './InfoContainer';
 import QuestionContainer from './QuestionContainer';
 
 function App() {
+	// Need to add in some logic for window resizing to bump the question container up beside the info block container.
+	function makeLine() {
+		if (window.innerWidth < 1024) {
+			return <hr />;
+		}
+	}
+
 	return (
 		<div className="App">
 			<header className="header-primary">
@@ -18,7 +25,7 @@ function App() {
 				<div className='container-info' id='info'>
 					<InfoContainer />
 				</div>
-				<hr />
+				{makeLine()}
 				<div className='container-qas'>
 					<h2>Questions</h2>
 					<QuestionContainer />
