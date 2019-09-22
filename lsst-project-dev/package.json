@@ -8,6 +8,7 @@
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
   },
+  "homepage": "http://callmedeeray.github.io/lsst-project",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
