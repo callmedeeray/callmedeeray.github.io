@@ -1,0 +1,52 @@
+.labelText-light {
+  border-style: none;
+  border-width: 1px;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 8pt;
+  margin-right: 5px;
+}
+
+.labelText-dark {
+  color: #E2E9FF;
+  border-style: none;
+  border-width: 1px;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 8pt;
+  margin-right: 5px;
+}
+
+.labelText-dark a {
+  margin-left: 5px;
+  color: #E2E9FF;
+  active: white;
+  visited: #E2E9FF;
+  hover: white;
+}
+
+.labelText-light a {
+  margin-left: 5px;
+  color: black;
+  active: #E2E9FF;
+  visited: black;
+  hover: #E2E9FF;
+}
+
+#credits {
+  border-style: none;
+  border-width: 1px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+  float: left;
+}
+
+#logoSpan {
+  border-style: none;
+  border-width: 1px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 20px;
+  float: right;
+}
