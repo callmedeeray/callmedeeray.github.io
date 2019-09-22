@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+	<style>
+		html {
+			background-color: black;
+			color: #E2E9FF;
+			font-family: "Trebuchet MS", Trebuchet, sans-serif;
+		}
+		.barlabel {
+			font-size: 8pt;
+			text-anchor: 'start';
+			/*color: #E2E9FF;*/
+			font-family: "Trebuchet MS", Trebuchet, sans-serif;
+		}
+
+		#finePrint {
+			font-size: 8pt;
+			margin-left: 20px;
+			margin-right: 20px;
+			margin-top: 8px;
+		}
+
+		#finePrint a {
+			color: #E2E9FF;
+			active: white;
+			visited: #E2E9FF;
+			hover: white;
+		}
+
+		.bar {
+			fill: slategrey;
+			stroke: white;
+			stroke-width: 0.3;
+			opacity: 0.8;
+		}
+
+		.bar:hover {
+			fill: lightsteelblue;
+			stroke-width: 0.6;
+			opacity: 0.7;
+		}
+
+		.axis--x path {
+			display: none;
+		}
+
+		#tooltip {
+			position: absolute;
+			width: auto;
+			height: auto;
+			padding: 5px;
+			background-color: #323243;
+			backgroun-opacity: 0.4;
+			border-radius: 5px;
+			box-shadow: 2px 2px 5px dimgrey;
+			pointer-events: none;
+		}
+
+		#tooltip.hidden {
+			display: none;
+		}
+
+	</style>
+	<title>#MakeoverMonday 2019, Week 26: Top Alcohol-Consuming Countries</title>
+	<link href="../MakeoverMondayFooter.css" rel="stylesheet" type="text/css">
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	<script type="text/babel" src="../MakeoverMondayFooter.js"></script>
+</head>
+
+<body>
+	<script>
+
+	// SETUP
+	var margin = { top: 20, right: 30, bottom: 20, left: 20 },
+		y = d3.scaleBand().padding(0.3),
+		x = d3.scaleLinear(),
+		theData = undefined;
+
+	d3.select('body')
+		.append('h1')
+		.text('Liters of Pure Alcohol Consumption Per Capita Around The World')
+		.style('display', 'inline-block')
+		.style('margin-left', margin.left + 'px')
+		.style('margin-top', margin.top + 'px')
+		;
+
+	var svg = d3
+		.select('body')
+		.append('svg')
+		.attr('width', '100%')
+		.attr('height', window.innerHeight*0.8);
+
+	var g = svg
+		.append("g")
+		.attr("transform", "translate(100,0)")
+		;
+
+	g.append("g")
+		.attr("class", "axis axis--y");
+
+	d3.select('body')
+		.append('div')
+		.attr('id', 'footer') ;
+
+	// d3.select('#finePrint')
+	// 	.append('span')
+	// 	.attr('id', 'credits')
+	// 	.style('display', 'inline-block')
+	// 	.style('vertical-align', 'middle')
+	// 	.style('margin-left', margin.left + 'px')
+	// 	.style('float', 'left');
+
+	// d3.select('#finePrint')
+	// 	.append('span')
+	// 	.attr('id', 'logoSpan')
+	// 	.style('margin-right', margin.right + 'px')
+	// 	.style('float', 'right')
+	// 	.style('text-align', 'right')
+	// 	.style('display', 'inline-block');
+
+	// d3.select('#credits')
+	// 	// .append('span')
+	// 	.text('Data:  ')
+	// 	.append('a')
+	// 	.attr('href', 'https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html')
+	// 	.attr('title', 'World Atlas')
+	// 	.text('World Atlas');
+
+	// d3.select('#logoSpan')
+	// 	.append('span')
+	// 	.attr('id', 'logoText')
+	// 	.style('height', window.innerHeight*0.05 + 'px')
+	// 	.style('display', 'inline-block')
+	// 	.style('vertical-align', 'middle')
+	// 	.text('Viz by:  ');
+
+	// d3.select('#logoSpan')
+	// 	.append('a')
+	// 	.attr('href', 'https://twitter.com/callmedeeray')
+	// 	.attr('target', "_blank")
+	// 	.append('img')
+	// 	.style('display', 'inline-block')
+	// 	.attr('id', 'logo')
+	// 	.attr('src', '../CallMeDeeray_Logo_Color.png')
+	// 	.attr('height', window.innerHeight*0.05)
+	// 	.style('opacity', 0.85);
+
+
+	// DRAWING
+
+	function draw() {
+
+		svg.attr('height', window.innerHeight*0.8);
+
+		var bounds = svg.node().getBoundingClientRect(),
+			width = bounds.width - margin.left - 100  - margin.right,
+			height = bounds.height - margin.top - margin.bottom;
+
+		x.rangeRound([100, width]);
+		y.rangeRound([height, 0]);
+
+		g.select(".axis--y")
+			// .attr("transform", "translate(0," + height + ")")
+			.attr('fill', 'black')
+			.attr('fill-opacity', 0.8)
+			.call(d3.axisLeft(y));
+
+		g.selectAll(".tick text")
+			.attr("fill", '#E2E9FF')
+			.attr('font-size', '8pt')
+			.attr('font-weight', 'bold')
+			.style('text-anchor', 'end')
+			;
+
+		var bars = g.selectAll(".bar")
+			.data(theData);
+
+		// ENTER
+		bars
+			.enter().append("rect")
+			.attr("class", "bar")
+			.attr("y", function(d) { return y(d.country); })
+			.attr("x", 0)
+			.attr("height", y.bandwidth())
+			.attr("width", function(d) { return x(d.liters); })
+			.on('mousemove', function(d) { 
+				
+				d3.select('#tooltip')
+					.style('left', d3.event.pageX-20 + 'px')
+					.style('top', d3.event.pageY-30 + 'px')
+					.text(function() { 
+						return 'People drink about ' + d.liters + ' liters each in ' + d.country; 
+					})
+
+				d3.select('#tooltip').classed('hidden', false);
+
+			})
+			.on('mouseout', function() {
+				d3.select('#tooltip').classed('hidden', true);
+			})
+			;
+
+
+		// UPDATE
+		bars
+			.attr("y", function(d) { return y(d.country); })
+			.attr("x", 0)
+			.attr("height", y.bandwidth())
+			.attr("width", function(d) { return x(d.liters); })
+
+		// EXIT
+		bars.exit()
+			.remove();
+
+
+		d3.select('#logo')
+			.attr('height', window.innerHeight*0.05);
+
+		d3.select('#logoText')
+			.style('height', window.innerHeight*0.05 + 'px');
+
+		d3.select('#credits')
+			.style('margin-top', '20px')
+			.style('height', window.innerHeight*0.05 + 'px');
+	}
+
+	// LOADING DATA
+
+	function loadData(csvFile) {
+
+		d3.csv(csvFile, function(d) {
+			d.liters = +d.liters
+			return d;
+
+		}, function(error, data) {
+			if (error) throw error;
+
+			theData = data.sort(function(e,f) { return d3.descending(f.liters, e.liters) });
+
+			y.domain(theData.map(function(d) { return d.country; }));
+			x.domain([0, d3.max(theData, function(d) { return d.liters; })]);
+
+			draw();
+
+		});
+	}
+
+	// START!
+
+	window.addEventListener("resize", draw);
+	loadData("./alcohol.csv");
+
+	</script>
+	<script type="text/babel">
+		ReactDOM.render(
+			<MakeoverMondayFooter dataTitle='World Atlas' dataLink='https://www.worldatlas.com/articles/who-drinks-the-most-alcohol-consumption-by-country.html' height={window.innerHeight*0.05} background='dark' />,
+			document.getElementById('footer')
+		);
+	</script>
+	<div id='tooltip' class='hidden'></div>
+</body>
