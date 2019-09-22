@@ -417,7 +417,7 @@ th {
 
 .container-main {
   display: block;
-  max-width: 1284px;
+  /*max-width: 1284px;*/
   padding: 20px;
   margin: 0 auto; }
 
@@ -565,6 +565,7 @@ hr {
   border: 0;
   border-top: 1px solid #2B2E34; }
 
+
 a:not([type='button']) {
   color: #2979C1;
   text-decoration: none;
@@ -586,7 +587,7 @@ strong {
 .header-primary {
   background-color: #087f80; }
   .header-primary .header-inner {
-    max-width: 1284px;
+    /*max-width: 1284px;*/
     min-height: 50px;
     padding: 0 20px;
     margin: 0 auto; }
