@@ -1,0 +1,49 @@
+{
+	"questions": 
+		[
+			{ "type": "short-answer",
+			  "questionName": "Short Answer Example",
+		 	  "questionText": "Laws of physics dream of the mind's eye a still more glorious dawn awaits?" 
+		 	},
+		 	{ "type": "long-answer",
+		 	  "questionName": "Long Answer Example",
+		 	  "questionText": "Laws of physics dream of the mind's eye a still more glorious dawn awaits?"
+		 	},
+		 	{
+		 	  "type": "fill-in-the-blank",
+		 	  "questionName": "Fill-in-the-blank Example",
+		 	  "questionText": ["Realm of the galaxies muse about made in the interiors of ","BLANK","."]
+		 	},
+		 	{
+		 	  "type": "compound-fill-in-the-blank",
+		 	  "questionName": "Compound Fill-in-the-blank Example",
+		 	  "questionText": ["Consciousness ","BLANK","hypatia worldlets Vangelis something incredible is waiting to be ","BLANK","."]
+		 	},
+		 	{
+		 	  "type": "multiple-choice",
+		 	  "questionName": "Multiple Choice Example",
+		 	  "questionText": "At the edge of forever take root and flourish billions upon billions intelligent beings stirred by starlight the carbon in our apple pies. Tendrils of gossamer clouds Orion's sword a mote of dust suspended in a sunbeam?",
+		 	  "answerList": ["Cosmic ocean", "Drake equation", "Star stuff"]
+		 	},
+		 	{
+		 	  "type": "inline-multiple-choice",
+		 	  "questionName": "Inline Multiple Choice Example",
+		 	  "questionText": ["Hydrogen atoms paroxysm of global death as a patch of light citizens of distant epochs ", 
+		 	  					"SELECT",
+		 	  					"prime number are creatures of the cosmos."],
+		 	  "answerList": [["mind's eye", "circumnavigated", "astronomers courage"]]
+		 	},
+		 	{
+		 	  "type": "inline-multiple-choice",
+		 	  "questionName": "Compound Multiple Choice Example",
+		 	  "questionText": ["Citizens of distant epochs globular star cluster tesseract gathered by gravity ", 
+		 	  					"SELECT",
+		 	  					"prime number are creatures of the cosmos. ",
+		 	  					"Decipherment paroxysm of global death laws of physics emerged into consciousness hundreds of ",
+		 	  					"SELECT",
+		 	  					"."],
+		 	  "answerList": [["heavy atoms","pretty stories", "vastness"],["thousands billions","Sea of Tranquility","good evidence"]]
+		 	}
+
+		]
+}
