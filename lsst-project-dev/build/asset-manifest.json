@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "./static/css/main.b185d6d3.chunk.css",
-    "main.js": "./static/js/main.e2130ff8.chunk.js",
-    "main.js.map": "./static/js/main.e2130ff8.chunk.js.map",
-    "runtime~main.js": "./static/js/runtime~main.f752d40d.js",
-    "runtime~main.js.map": "./static/js/runtime~main.f752d40d.js.map",
-    "static/js/2.0a6c041f.chunk.js": "./static/js/2.0a6c041f.chunk.js",
-    "static/js/2.0a6c041f.chunk.js.map": "./static/js/2.0a6c041f.chunk.js.map",
-    "index.html": "./index.html",
-    "precache-manifest.ded136ba97686c97529622caac947494.js": "./precache-manifest.ded136ba97686c97529622caac947494.js",
-    "service-worker.js": "./service-worker.js",
-    "static/css/main.b185d6d3.chunk.css.map": "./static/css/main.b185d6d3.chunk.css.map",
-    "static/media/logo.svg": "./static/media/logo.df425ff1.svg"
+    "main.css": "/lsst-project-dev/static/css/main.b185d6d3.chunk.css",
+    "main.js": "/lsst-project-dev/static/js/main.a91419b5.chunk.js",
+    "main.js.map": "/lsst-project-dev/static/js/main.a91419b5.chunk.js.map",
+    "runtime~main.js": "/lsst-project-dev/static/js/runtime~main.427bd293.js",
+    "runtime~main.js.map": "/lsst-project-dev/static/js/runtime~main.427bd293.js.map",
+    "static/js/2.0a6c041f.chunk.js": "/lsst-project-dev/static/js/2.0a6c041f.chunk.js",
+    "static/js/2.0a6c041f.chunk.js.map": "/lsst-project-dev/static/js/2.0a6c041f.chunk.js.map",
+    "index.html": "/lsst-project-dev/index.html",
+    "precache-manifest.dd5ce42bff9e57c7e162594edb53647c.js": "/lsst-project-dev/precache-manifest.dd5ce42bff9e57c7e162594edb53647c.js",
+    "service-worker.js": "/lsst-project-dev/service-worker.js",
+    "static/css/main.b185d6d3.chunk.css.map": "/lsst-project-dev/static/css/main.b185d6d3.chunk.css.map",
+    "static/media/logo.svg": "/lsst-project-dev/static/media/logo.df425ff1.svg"
   }
 }
