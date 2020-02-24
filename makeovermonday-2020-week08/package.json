@@ -25,6 +25,7 @@
     "xml-loader": "^1.2.1"
   },
   "dependencies": {
+    "d3": "^5.15.0",
     "lodash": "^4.17.15"
   }
 }
