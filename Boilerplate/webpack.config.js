@@ -16,6 +16,7 @@ module.exports = {
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			title: 'Output Management',
+			favicon: './dist/favicon.ico',
 		}),
 	],
 	output: {
