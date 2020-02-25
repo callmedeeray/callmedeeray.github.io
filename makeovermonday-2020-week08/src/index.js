@@ -1,11 +1,11 @@
 import './style.css';
 import * as d3 from 'd3';
+import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import data from './Week08-2.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 main();
-// window.addEventListener('resize', main())
 
 function main() {
 
@@ -27,16 +27,61 @@ function main() {
 		.style('margin-left', margin.left + 'px')
 		.style('margin-right', margin.right + 'px')
 		.style('margin-bottom', margin.bottom + 'px')
-		// .style('text-align', 'center');
 
-	// d3.select('#main')
-	// 	.attr('width', width + margin.left + margin.right)
-	// 	.attr('height', height + margin.top + margin.bottom);
+	let svg = d3.select('#main');
 
-	// let svg = d3.select('#main').select('g')
-	// 	.attr('transform', `translate(${margin.left}, ${margin.top})`);
+	let nodes1 = [
+			{'node': 'Homeless0', 'name': 'Homeless0'}
+			, {'node': 'At risk0', 'name': 'At risk0'}
+			, {'node': 'Homeless', 'name': 'Homeless'}
+			, {'node': 'At risk', 'name': 'At risk'}
+			, {'node': 'Unknown', 'name': 'Unknown'}
+		];
+
+	const {nodes, links} = sankey()
+			.nodeId(d => d.node)
+			// .nodeAlign(d3[`sankey${align[0].toUpperCase()}${align.slice(1)}`])
+			.nodeWidth(15)
+			.nodePadding(10)
+			.extent([[1, 1], [width - 1, height - 25]])({
+				nodes: nodes1.map(d => Object.assign({}, d)),
+				links: data.filter(d => d.Year == '2014-15' ).map(d => Object.assign({}, d))
+			});
+
+	
+	console.log(links);
 
 
+	// let { nodes, links } = sankey()
+	// 	.nodeWidth(winWidth*0.05)
+	// 	.nodePadding(winWidth*0.01)
+	// 	.nodeId((d) => { d.node })
+	// 	.extent([[1, 1], [width - 1, height - 25]])
+	// 	({
+	// 					nodes: nodes1.map(d => Object.assign({}, d)),
+	// 					links: data.filter(d => d.Year == '2014-15' ).map(d => Object.assign({}, d))
+	// 			})
+	// 	;
+
+	let node = svg.append('g')
+		.selectAll('.node')
+		.data(nodes)
+		.enter()
+		.append('rect')
+		.attr('class', 'node')
+		.attr('height', (d) => { d.y1 - d.y0 })
+		.attr('width', 5)
+		;
+
+	let link = svg.append('g')
+		.selectAll('.link')
+		.data(links)
+		.enter()
+		.append('path')
+		.attr('class', 'link')
+		.attr('d', sankeyLinkHorizontal())
+		.style('stroke-width', (d) => { d.width; })
+		.sort((a,b) => { b.dy - a.dy });
 
 
 }
