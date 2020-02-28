@@ -1,0 +1,146 @@
+[
+ {
+   "Year": "2014-15",
+   "source": "At risk0",
+   "target": "At risk",
+   "value": 79698
+ },
+ {
+   "Year": "2014-15",
+   "source": "At risk0",
+   "target": "Homeless",
+   "value": 8693
+ },
+ {
+   "Year": "2014-15",
+   "source": "At risk0",
+   "target": "Unknown",
+   "value": 5456
+ },
+ {
+   "Year": "2014-15",
+   "source": "Homeless0",
+   "target": "At risk",
+   "value": 23701
+ },
+ {
+   "Year": "2014-15",
+   "source": "Homeless0",
+   "target": "Homeless",
+   "value": 41391
+ },
+ {
+   "Year": "2014-15",
+   "source": "Homeless0",
+   "target": "Unknown",
+   "value": 7107
+ },
+ {
+   "Year": "2015-16",
+   "source": "At risk0",
+   "target": "At risk",
+   "value": 86473
+ },
+ {
+   "Year": "2015-16",
+   "source": "At risk0",
+   "target": "Homeless",
+   "value": 9246
+ },
+ {
+   "Year": "2015-16",
+   "source": "At risk0",
+   "target": "Unknown",
+   "value": 6190
+ },
+ {
+   "Year": "2015-16",
+   "source": "Homeless0",
+   "target": "At risk",
+   "value": 26408
+ },
+ {
+   "Year": "2015-16",
+   "source": "Homeless0",
+   "target": "Homeless",
+   "value": 44567
+ },
+ {
+   "Year": "2015-16",
+   "source": "Homeless0",
+   "target": "Unknown",
+   "value": 8340
+ },
+ {
+   "Year": "2016-17",
+   "source": "At risk0",
+   "target": "At risk",
+   "value": 87789
+ },
+ {
+   "Year": "2016-17",
+   "source": "At risk0",
+   "target": "Homeless",
+   "value": 9205
+ },
+ {
+   "Year": "2016-17",
+   "source": "At risk0",
+   "target": "Unknown",
+   "value": 6385
+ },
+ {
+   "Year": "2016-17",
+   "source": "Homeless0",
+   "target": "At risk",
+   "value": 27970
+ },
+ {
+   "Year": "2016-17",
+   "source": "Homeless0",
+   "target": "Homeless",
+   "value": 44499
+ },
+ {
+   "Year": "2016-17",
+   "source": "Homeless0",
+   "target": "Unknown",
+   "value": 8410
+ },
+ {
+   "Year": "2017-18",
+   "source": "At risk0",
+   "target": "At risk",
+   "value": 87193
+ },
+ {
+   "Year": "2017-18",
+   "source": "At risk0",
+   "target": "Homeless",
+   "value": 9391
+ },
+ {
+   "Year": "2017-18",
+   "source": "At risk0",
+   "target": "Unknown",
+   "value": 6095
+ },
+ {
+   "Year": "2017-18",
+   "source": "Homeless0",
+   "target": "At risk",
+   "value": 26992
+ },
+ {
+   "Year": "2017-18",
+   "source": "Homeless0",
+   "target": "Homeless",
+   "value": 43697
+ },
+ {
+   "Year": "2017-18",
+   "source": "Homeless0",
+   "target": "Unknown",
+   "value": 7607
+ }
+]
