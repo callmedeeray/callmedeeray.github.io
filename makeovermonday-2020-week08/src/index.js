@@ -6,14 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 main();
-// window.addEventListener('resize', main());
-
 window.onresize = main;
-//Call our resize function if the window size is changed.
 
 function main() {
 
-	d3.select('#main').selectAll('g').remove();
+	d3.select('#sankey').selectAll('g').remove();
 
 	let 
 		winWidth = Math.floor(0.975*window.innerWidth),
@@ -28,7 +25,7 @@ function main() {
 	let width = document.getElementById('root').clientWidth - margin.left - margin.right,
 		height = winHeight - margin.top - margin.bottom;
 
-	d3.select('#main')
+	d3.select('#sankey')
 		.attr('width', width)
 		.attr('height', height);
 
@@ -41,7 +38,7 @@ function main() {
 	d3.select('#root')
 		.style('height', height + 'px');
 
-	let svg = d3.select('#main');
+	let svg = d3.select('#sankey');
 
 	let nodes1 = [
 			{'node': 'Homeless0', 'name': 'Homeless'}
@@ -58,7 +55,7 @@ function main() {
 			.nodePadding(10)
 			.extent([[1, 1], [0.95*width, 0.95*height]])({
 				nodes: nodes1.map(d => Object.assign({}, d)),
-				links: data.filter(d => d.Year == '2014-15' ).map(d => Object.assign({}, d))
+				links: data.filter(d => d.Year == '2017-18'  ).map(d => Object.assign({}, d))
 			});
 
 
