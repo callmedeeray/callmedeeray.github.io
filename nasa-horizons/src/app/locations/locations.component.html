@@ -1,0 +1,8 @@
+
+<div *ngFor='let location of locations'>
+    
+<h2>{{ location.calendar_date }}</h2>
+<!-- <div><span>id: </span>{{ location.id }}</div> -->
+<div><span>coordinates: </span>{{ [location.x, location.y, location.z].join(', ') }}</div>
+
+</div>
