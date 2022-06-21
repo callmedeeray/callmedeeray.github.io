@@ -5,11 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LocationsComponent } from './locations/locations.component';
+import { CubeComponent } from './cube/cube.component';
+import { SolarsystemComponent } from './solarsystem/solarsystem.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LocationsComponent
+    LocationsComponent,
+    CubeComponent,
+    SolarsystemComponent
   ],
   imports: [
     BrowserModule,

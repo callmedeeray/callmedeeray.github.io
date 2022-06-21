@@ -17,7 +17,7 @@ import { LocationRaw, Location } from '../location';
 export class LocationsComponent implements OnInit {
 
   locationsRaw: LocationRaw[] = [];
-  locations: Location[] = [];
+  public locations: Location[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -27,7 +27,7 @@ export class LocationsComponent implements OnInit {
       .subscribe(data => {
         this.locationsRaw = Object.values(data);
         this.convertData();
-        console.log(this.locationsRaw);
+        // console.log(this.locationsRaw);
       });
   }
 
