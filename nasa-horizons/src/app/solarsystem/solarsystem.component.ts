@@ -32,7 +32,7 @@ export class SolarsystemComponent implements OnInit, AfterViewInit {
 
   //* Stage Properties
 
-  @Input() public cameraZ: number = 0.5*93e9;
+  @Input() public cameraZ: number = 93e6;
   @Input() public fieldOfView: number = 1;
   @Input('nearClipping') public nearClippingPlane: number = 1;
   @Input('farClipping') public farClippingPlane: number = 1e20;
@@ -92,7 +92,7 @@ export class SolarsystemComponent implements OnInit, AfterViewInit {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000); //new THREE.TextureLoader().load(this.bg_texture)
     this.scene.add(this.sun);
-    this.scene.add(this.background);
+    // this.scene.add(this.background);
 
     //* Camera
     let aspectRatio = this.getAspectRatio();
