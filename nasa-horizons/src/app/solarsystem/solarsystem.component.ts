@@ -53,7 +53,7 @@ export class SolarsystemComponent implements OnInit {
   }
   private loader = new THREE.TextureLoader();
 
-  private bg_geometry = new THREE.SphereGeometry(1e7, 32, 32);
+  private bg_geometry = new THREE.SphereGeometry(5e9, 32, 32);
   private bg_material = new THREE.MeshBasicMaterial({ map: this.loader.load(this.bg_texture), side: THREE.BackSide });
 
   private renderer!: THREE.WebGLRenderer;
@@ -70,16 +70,12 @@ export class SolarsystemComponent implements OnInit {
 
   private animate(): void {
     if (this.index < this.numSteps) {
-      for (let i in this.solarSystem) {
-        let b = this.solarSystem[i];
+      this.solarSystem.forEach((b) => {
         b.mesh.position.setX(this.bodyLocations[b.body][this.index].x);
         b.mesh.position.setY(this.bodyLocations[b.body][this.index].y);
         b.mesh.position.setZ(this.bodyLocations[b.body][this.index].z);
-        
-      }
-      // this.controls.target.set(0,0,0);
-      // this.controls.target.set(this.bodyLocations['earth'][this.index].x, this.bodyLocations['earth'][this.index].y, this.bodyLocations['earth'][this.index].z);
-
+      });
+      
       this.controls.update();
       this.index += this.dt;
     }
@@ -90,9 +86,10 @@ export class SolarsystemComponent implements OnInit {
   }
 
   private startRenderingLoop(): void {
+    console.log('set up rendering loop');
+
     //* Renderer
     // Use canvas element in template
-
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, logarithmicDepthBuffer: true });
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
@@ -111,22 +108,22 @@ export class SolarsystemComponent implements OnInit {
     }());
 
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
-    this.controls.target.set(this.earthPos.x, this.earthPos.y, this.earthPos.z);
+    
     this.controls.update();
+    console.log('rendering loop done')
   }
 
   private createScene(): void {
+    console.log('create scene begin');
     //* Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x000000); //new THREE.TextureLoader().load(this.bg_texture)
+    this.scene.background = new THREE.Color(0x000000);
 
-    for (let i in this.solarSystem) {
-      let b = this.solarSystem[i];
-      this.scene.add(b.mesh);
-    }
-    this.backgroundStars.position.set(this.earthPos.x, this.earthPos.y, this.earthPos.z);
+    this.solarSystem.forEach( (b) => { this.scene.add(b.mesh) });
+
     this.backgroundStars.name = 'backgroundStars';
     this.scene.add(this.backgroundStars);
+    console.log(this.scene);
 
     //* Camera
     let aspectRatio = this.getAspectRatio();
@@ -137,20 +134,21 @@ export class SolarsystemComponent implements OnInit {
       this.farClippingPlane
     )
     this.camera.position.set(this.earthPos.x, this.earthPos.y, this.earthPos.z);
+    
     this.camera.lookAt(this.bodyLocations['sun'][0].x, this.bodyLocations['sun'][0].y, this.bodyLocations['sun'][0].z);
-    this.scene.add(this.camera);
+    this.camera.zoom = 1e-10;
 
     const light = new THREE.PointLight( 0xffffff, 1, 0, 2);
     light.position.set(0,0,0);
     this.scene.add(light);
 
     this.clock.start();
-    console.log('step 6 begin');
-    console.log(this.scene);
+    console.log('scene created')
     this.startRenderingLoop();
   }
 
   private createSolarSystem(): void {
+    console.log('create solar system begin');
 
     for (let i in BODIES) {
       let b = BODIES[i];
@@ -161,34 +159,27 @@ export class SolarsystemComponent implements OnInit {
 
       let newMesh: THREE.Mesh = new THREE.Mesh(geometry, material);
       newMesh.name = b.body;
+      
+      newMesh.position.set( this.bodyLocations[b.body][0].x, this.bodyLocations[b.body][0].y, this.bodyLocations[b.body][0].z );
       this.solarSystem.push({ body: b.body, mesh: newMesh });
+      console.log(b.body + ' added to system')
     }
-    console.log('step 5 begin');
     this.createScene();
   }
 
 
   private getEarthData(): void {
+    console.log('get earth data')
     this.httpClient
       .get('assets/earth_coords.json')
       .subscribe(data => {
         this.convertData(Object.values(data), 'earth');
-        console.log('step 4 begin');
         this.earthPos = new THREE.Vector3(Object.values(data)[0].x, Object.values(data)[0].y, Object.values(data)[0].z);
+        console.log('earth completed')
         this.createSolarSystem();
       });
   };
   
-  private getData(b: string): void {
-    this.httpClient
-      .get('assets/' + b + '_coords.json')
-      .subscribe(data => {
-        console.log('step 2');
-        this.convertData(Object.values(data), b);
-      });
-  };
-
-
   // shiftData(locs: Location[]): Location[] {
   //   let shifted: Location[] = [];
 
@@ -200,6 +191,7 @@ export class SolarsystemComponent implements OnInit {
   // };
 
   convertData(locs: LocationRaw[], body: string): void {
+    console.log('begin converting data for ' + body)
     let locations: Location[] = [];
 
     locs.forEach(d => {
@@ -213,23 +205,32 @@ export class SolarsystemComponent implements OnInit {
     })
     if (body !== 'earth') { 
       this.bodyLocations[body] = locations;
-      console.log(body + ' done!');
     };
+
+    console.log(body + ' conversion done!');
     if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) { 
-      console.log('step 3 begin');
       this.getEarthData();
       this.stopper++;
     };
   }
 
+  private getData(b: string): void {
+    console.log('begin fetching data for ' + b)
+    this.httpClient
+      .get('assets/' + b + '_coords.json')
+      .subscribe(data => {
+        this.convertData(Object.values(data), b);
+      });
+  };
+
+
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
-    console.log('step 1');
-    for (let i in BODIES) {
-      let b = BODIES[i];
+    console.log('onInit');
+    BODIES.forEach((b) => {
       this.getData(b.body);
-    }
+    });
   }
 
   ngAfterViewInit(): void {
