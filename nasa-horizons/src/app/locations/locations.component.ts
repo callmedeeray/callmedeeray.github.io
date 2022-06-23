@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-// const DateTime = require('luxon');
 import { DateTime } from 'luxon'; 
 
-import { LocationRaw, Location } from '../location';
+import { LocationRaw, Location } from '../location_types';
 
 
 @Component({
@@ -23,11 +22,10 @@ export class LocationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpClient
-      .get('assets/horizons_results.json')
+      .get('assets/sun_coords.json')
       .subscribe(data => {
         this.locationsRaw = Object.values(data);
         this.convertData();
-        // console.log(this.locationsRaw);
       });
   }
 

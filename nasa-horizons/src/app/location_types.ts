@@ -17,3 +17,6 @@ export interface Location {
     z: number;
 };
 
+export interface BodyLocations {
+    [key: string]: Location[];
+}
