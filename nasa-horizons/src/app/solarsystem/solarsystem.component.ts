@@ -27,11 +27,13 @@ export class SolarsystemComponent implements OnInit {
   @Input() public dt: number = 1;
   @Input() public dtType = 'DAYS';
   @Input() public startDate = '2022-05-17';
-  @Input() public endDate = '2022-07-17';
+  @Input() public endDate = '2023-05-17';
+  @Input() public interval: number = 1/20;  // 1/X = X frames per second
+  @Input() public interval2: number = 1;
   @Input() public index: number = 0;
   @Input() public delta: number = 0;
+  @Input() public delta2: number = 0.5;
   @Input() public stopper: number = 0;
-  @Input() public interval: number = 1/20;  // 1/X = X frames per second
 
   private dur: any = this.dtType.toLocaleLowerCase();
   @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
@@ -50,6 +52,7 @@ export class SolarsystemComponent implements OnInit {
   private bodyLocations: BodyLocations = {};
   private camera!: THREE.PerspectiveCamera;
   private clock: THREE.Clock = new THREE.Clock();
+  private clock2: THREE.Clock = new THREE.Clock();
   private earthPos!: THREE.Vector3;
 
   private get canvas(): HTMLCanvasElement {
@@ -127,7 +130,6 @@ export class SolarsystemComponent implements OnInit {
 
     this.backgroundStars.name = 'backgroundStars';
     this.scene.add(this.backgroundStars);
-    console.log(this.scene);
 
     //* Camera
     let aspectRatio = this.getAspectRatio();
@@ -177,24 +179,24 @@ export class SolarsystemComponent implements OnInit {
 
     let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=399&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
     
+    this.httpClient
+      .get(str)
+      .subscribe(data => {
+        let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
+        this.convertData(result, 'earth');
+        this.earthPos = new THREE.Vector3(result[0].x, result[0].y, result[0].z);
+        console.log('earth completed')
+        this.createSolarSystem();
+      })
+
     // this.httpClient
-    //   .get(str)
+    //   .get('assets/earth_coords.json')
     //   .subscribe(data => {
-    //     let result = this.csvJSON('jdtdb,calendar_date, x, y, z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
-    //     this.convertData(result, 'earth');
+    //     this.convertData(Object.values(data), 'earth');
     //     this.earthPos = new THREE.Vector3(Object.values(data)[0].x, Object.values(data)[0].y, Object.values(data)[0].z);
     //     console.log('earth completed')
     //     this.createSolarSystem();
-    //   })
-
-    this.httpClient
-      .get('assets/earth_coords.json')
-      .subscribe(data => {
-        this.convertData(Object.values(data), 'earth');
-        this.earthPos = new THREE.Vector3(Object.values(data)[0].x, Object.values(data)[0].y, Object.values(data)[0].z);
-        console.log('earth completed')
-        this.createSolarSystem();
-      });
+    //   });
   };
   
   // shiftData(locs: Location[]): Location[] {
@@ -220,6 +222,7 @@ export class SolarsystemComponent implements OnInit {
         z: Number(d.z)
       })
     })
+
     if (body !== 'earth') { 
       this.bodyLocations[body] = locations;
     };
@@ -264,18 +267,17 @@ export class SolarsystemComponent implements OnInit {
 
     let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + num.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
     
-    // this.httpClient
-    //   .get(str)
-    //   .subscribe(data => {
-    //     let result = this.csvJSON('jdtdb,calendar_date, x, y, z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
-    //     // console.log(result)
-    //     this.convertData(result, b);
-    //   })
     this.httpClient
-      .get('assets/' + b + '_coords.json')
+      .get(str)
       .subscribe(data => {
-        this.convertData(Object.values(data), b);
-      });
+        let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
+        this.convertData(result, b);
+      })
+    // this.httpClient
+    //   .get('assets/' + b + '_coords.json')
+    //   .subscribe(data => {
+    //     this.convertData(Object.values(data), b);
+    //   });
   };
 
 
