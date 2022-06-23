@@ -2,14 +2,13 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { timeout } from 'rxjs/operators';
 
-import { DateTime } from 'luxon'; 
+import { DateTime, DurationUnits } from 'luxon'; 
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 
 import { LocationRaw, Location, BodyLocations } from '../location_types';
 import { BODIES } from '../bodies';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-solarsystem',
@@ -26,18 +25,23 @@ export class SolarsystemComponent implements OnInit {
   @Input() public rotationSpeedX: number = 0;
   @Input() public rotationSpeedY: number = 0.005;
   @Input() public dt: number = 1;
+  @Input() public dtType = 'DAYS';
+  @Input() public startDate = '2022-05-17';
+  @Input() public endDate = '2022-07-17';
   @Input() public index: number = 0;
   @Input() public delta: number = 0;
   @Input() public stopper: number = 0;
   @Input() public interval: number = 1/20;  // 1/X = X frames per second
-  @Input() public numSteps: number = 62;
+
+  private dur: any = this.dtType.toLocaleLowerCase();
+  @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
 
   @Input() public bg_texture: string = '/assets/texture-background.jpeg';
 
   //* Stage Properties
 
   @Input() public cameraZ: number = 93e6;
-  @Input() public fieldOfView: number = 1;
+  @Input() public fieldOfView: number = 1000;
   @Input('nearClipping') public nearClippingPlane: number = 1;
   @Input('farClipping') public farClippingPlane: number = 1e20;
 
@@ -75,7 +79,7 @@ export class SolarsystemComponent implements OnInit {
         b.mesh.position.setY(this.bodyLocations[b.body][this.index].y);
         b.mesh.position.setZ(this.bodyLocations[b.body][this.index].z);
       });
-      
+
       this.controls.update();
       this.index += this.dt;
     }
@@ -154,7 +158,7 @@ export class SolarsystemComponent implements OnInit {
       let b = BODIES[i];
       let texture: string = '/assets/texture-' + b.body + '.jpeg';
 
-      let geometry = new THREE.SphereGeometry(b.radius, 32, 32);
+      let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
       let material = new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
 
       let newMesh: THREE.Mesh = new THREE.Mesh(geometry, material);
@@ -170,6 +174,19 @@ export class SolarsystemComponent implements OnInit {
 
   private getEarthData(): void {
     console.log('get earth data')
+
+    let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=399&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
+    
+    // this.httpClient
+    //   .get(str)
+    //   .subscribe(data => {
+    //     let result = this.csvJSON('jdtdb,calendar_date, x, y, z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
+    //     this.convertData(result, 'earth');
+    //     this.earthPos = new THREE.Vector3(Object.values(data)[0].x, Object.values(data)[0].y, Object.values(data)[0].z);
+    //     console.log('earth completed')
+    //     this.createSolarSystem();
+    //   })
+
     this.httpClient
       .get('assets/earth_coords.json')
       .subscribe(data => {
@@ -211,11 +228,49 @@ export class SolarsystemComponent implements OnInit {
     if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) { 
       this.getEarthData();
       this.stopper++;
-    };
+      };
   }
 
-  private getData(b: string): void {
+  private csvJSON(csv: string): any {
+    // source: http://techslides.com/convert-csv-to-json-in-javascript
+
+    let lines = csv.split("\n");
+  
+    let result = [];
+  
+    // NOTE: If your columns contain commas in their values, you'll need
+    // to deal with those before doing the next step 
+    // (you might convert them to &&& or something, then covert them back later)
+    // jsfiddle showing the issue https://jsfiddle.net/
+    let headers: string[] = lines[0].split(",");
+  
+    for(let i=1; i<lines.length-1; i++) {
+  
+      let obj: any = {};
+      let currentline = lines[i].split(",");
+
+      for(let j=0; j<headers.length; j++){
+        obj[headers[j]] = currentline[j].trim();
+      }
+      result.push(obj);
+    }
+    //return result; //JavaScript object
+    return result; //JSON
+  }
+
+
+  private getData(b: string, num: number): void {
     console.log('begin fetching data for ' + b)
+
+    let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + num.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
+    
+    // this.httpClient
+    //   .get(str)
+    //   .subscribe(data => {
+    //     let result = this.csvJSON('jdtdb,calendar_date, x, y, z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
+    //     // console.log(result)
+    //     this.convertData(result, b);
+    //   })
     this.httpClient
       .get('assets/' + b + '_coords.json')
       .subscribe(data => {
@@ -228,8 +283,9 @@ export class SolarsystemComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('onInit');
+
     BODIES.forEach((b) => {
-      this.getData(b.body);
+      this.getData(b.body, b.id);
     });
   }
 
