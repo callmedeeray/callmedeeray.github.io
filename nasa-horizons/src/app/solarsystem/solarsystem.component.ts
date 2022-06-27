@@ -188,25 +188,8 @@ export class SolarsystemComponent implements OnInit {
         this.createSolarSystem();
       })
 
-    // this.httpClient
-    //   .get('assets/earth_coords.json')
-    //   .subscribe(data => {
-    //     this.convertData(Object.values(data), 'earth');
-    //     this.earthPos = new THREE.Vector3(Object.values(data)[0].x, Object.values(data)[0].y, Object.values(data)[0].z);
-    //     console.log('earth completed')
-    //     this.createSolarSystem();
-    //   });
   };
   
-  // shiftData(locs: Location[]): Location[] {
-  //   let shifted: Location[] = [];
-
-  //   locs.forEach((l, i) => {
-  //     let x: number = l.x = 
-  //   })
-
-  //   return shifted;
-  // };
 
   convertData(locs: LocationRaw[], body: string): void {
     console.log('begin converting data for ' + body)
@@ -277,11 +260,6 @@ export class SolarsystemComponent implements OnInit {
         this.convertData(result, b.body);
       })
     
-    // this.httpClient
-    //   .get('assets/' + b + '_coords.json')
-    //   .subscribe(data => {
-    //     this.convertData(Object.values(data), b);
-    //   });
   };
 
   constructor(private httpClient: HttpClient) { }
