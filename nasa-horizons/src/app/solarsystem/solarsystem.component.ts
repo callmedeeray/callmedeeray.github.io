@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { timeout } from 'rxjs/operators';
+import { interval } from 'rxjs';
 
 import { DateTime, DurationUnits } from 'luxon'; 
 import * as THREE from "three";
@@ -29,11 +30,10 @@ export class SolarsystemComponent implements OnInit {
   @Input() public startDate = '2022-05-17';
   @Input() public endDate = '2023-05-17';
   @Input() public interval: number = 1/20;  // 1/X = X frames per second
-  @Input() public interval2: number = 1;
   @Input() public index: number = 0;
   @Input() public delta: number = 0;
-  @Input() public delta2: number = 0.5;
   @Input() public stopper: number = 0;
+  @Input() public timeout: number = 4000; // wait this many milliseconds to do an API call
 
   private dur: any = this.dtType.toLocaleLowerCase();
   @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
@@ -52,7 +52,6 @@ export class SolarsystemComponent implements OnInit {
   private bodyLocations: BodyLocations = {};
   private camera!: THREE.PerspectiveCamera;
   private clock: THREE.Clock = new THREE.Clock();
-  private clock2: THREE.Clock = new THREE.Clock();
   private earthPos!: THREE.Vector3;
 
   private get canvas(): HTMLCanvasElement {
@@ -229,7 +228,10 @@ export class SolarsystemComponent implements OnInit {
 
     console.log(body + ' conversion done!');
     if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) { 
-      this.getEarthData();
+      
+      let a: Date = new Date();
+      console.log('begin fetching data for Earth at ' + a);
+      setTimeout(() => { this.getEarthData() }, this.timeout);
       this.stopper++;
       };
   }
@@ -262,17 +264,19 @@ export class SolarsystemComponent implements OnInit {
   }
 
 
-  private getData(b: string, num: number): void {
-    console.log('begin fetching data for ' + b)
+  private getData(b: {body: string, id: number}): void {
+    let a: Date = new Date();        
+    console.log('begin fetching data for ' + b.body + ' at ' + a)
 
-    let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + num.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
+    let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + b.id.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
     
     this.httpClient
       .get(str)
       .subscribe(data => {
         let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
-        this.convertData(result, b);
+        this.convertData(result, b.body);
       })
+    
     // this.httpClient
     //   .get('assets/' + b + '_coords.json')
     //   .subscribe(data => {
@@ -280,15 +284,22 @@ export class SolarsystemComponent implements OnInit {
     //   });
   };
 
-
   constructor(private httpClient: HttpClient) { }
+
+  private sleep(x: number): Promise<void> {
+    return new Promise(resolve =>  setTimeout(resolve as any, x*1000));
+  };
+
+  private async doThings(): Promise<void> {
+    for (let i = 0; i < BODIES.length; i++) {
+      this.getData(BODIES[i]);
+      await this.sleep(1); 
+    }
+  };
 
   ngOnInit(): void {
     console.log('onInit');
-
-    BODIES.forEach((b) => {
-      this.getData(b.body, b.id);
-    });
+    this.doThings();
   }
 
   ngAfterViewInit(): void {
