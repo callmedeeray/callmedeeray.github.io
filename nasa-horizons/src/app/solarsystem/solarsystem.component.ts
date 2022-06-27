@@ -1,11 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { timeout } from 'rxjs/operators';
-import { interval } from 'rxjs';
 
 import { DateTime, DurationUnits } from 'luxon'; 
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 import { LocationRaw, Location, BodyLocations } from '../location_types';
@@ -33,7 +32,7 @@ export class SolarsystemComponent implements OnInit {
   @Input() public index: number = 0;
   @Input() public delta: number = 0;
   @Input() public stopper: number = 0;
-  @Input() public timeout: number = 4000; // wait this many milliseconds to do an API call
+  @Input() public timeout: number = 500; // wait this many milliseconds to do an API call
 
   private dur: any = this.dtType.toLocaleLowerCase();
   @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
@@ -87,6 +86,7 @@ export class SolarsystemComponent implements OnInit {
     }
     else {
       this.index = 0;
+      this.camera.lookAt(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z);
       this.controls.update();
     }
   }
@@ -116,7 +116,8 @@ export class SolarsystemComponent implements OnInit {
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
     
     this.controls.update();
-    console.log('rendering loop done')
+    console.log('rendering loop done');
+    this.spinner.hide();
   }
 
   private createScene(): void {
@@ -141,8 +142,7 @@ export class SolarsystemComponent implements OnInit {
     this.camera.position.set(this.earthPos.x, this.earthPos.y, this.earthPos.z);
     
     this.camera.lookAt(this.bodyLocations['sun'][0].x, this.bodyLocations['sun'][0].y, this.bodyLocations['sun'][0].z);
-    this.camera.zoom = 1e-10;
-
+    
     const light = new THREE.PointLight( 0xffffff, 1, 0, 2);
     light.position.set(0,0,0);
     this.scene.add(light);
@@ -172,7 +172,6 @@ export class SolarsystemComponent implements OnInit {
     this.createScene();
   }
 
-
   private getEarthData(): void {
     console.log('get earth data')
 
@@ -189,7 +188,6 @@ export class SolarsystemComponent implements OnInit {
       })
 
   };
-  
 
   convertData(locs: LocationRaw[], body: string): void {
     console.log('begin converting data for ' + body)
@@ -246,7 +244,6 @@ export class SolarsystemComponent implements OnInit {
     return result; //JSON
   }
 
-
   private getData(b: {body: string, id: number}): void {
     let a: Date = new Date();        
     console.log('begin fetching data for ' + b.body + ' at ' + a)
@@ -262,25 +259,34 @@ export class SolarsystemComponent implements OnInit {
     
   };
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private spinner: NgxSpinnerService) { }
 
   private sleep(x: number): Promise<void> {
-    return new Promise(resolve =>  setTimeout(resolve as any, x*1000));
+    return new Promise(resolve =>  setTimeout(resolve as any, x));
   };
 
   private async doThings(): Promise<void> {
     for (let i = 0; i < BODIES.length; i++) {
       this.getData(BODIES[i]);
-      await this.sleep(1); 
+      await this.sleep(this.timeout); 
     }
   };
 
   ngOnInit(): void {
-    console.log('onInit');
-    this.doThings();
+    this.spinner.show(undefined,
+      {
+        type: 'square-spin',
+        size: 'small',
+        bdColor: 'rgba(255, 255, 255, .3)',
+        color: 'white',
+        fullScreen: false
+      }
+    );
   }
 
   ngAfterViewInit(): void {
+    console.log('onInit');
+    this.doThings();
   }
 
 }
