@@ -1,11 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { DateTime, DurationUnits } from 'luxon'; 
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import { NgxSpinnerService } from 'ngx-spinner';
-
 
 import { LocationRaw, Location, BodyLocations } from '../location_types';
 import { BODIES } from '../bodies';
@@ -17,22 +17,17 @@ import { BODIES } from '../bodies';
 })
 export class SolarsystemComponent implements OnInit {
 
-  @ViewChild('canvas')
-  private canvasRef!: ElementRef;
+  @ViewChild('canvas') private canvasRef!: ElementRef;
 
-  //* Sun Properties
-
-  @Input() public rotationSpeedX: number = 0;
-  @Input() public rotationSpeedY: number = 0.005;
   @Input() public dt: number = 1;
-  @Input() public dtType = 'DAYS';
-  @Input() public startDate = '2022-05-17';
+  @Input() public dtType = 'HOURS';
+  @Input() public startDate = '2021-05-17';
   @Input() public endDate = '2023-05-17';
-  @Input() public interval: number = 1/20;  // 1/X = X frames per second
+  @Input() public interval: number = 1/60;  // 1/X = X frames per second
   @Input() public index: number = 0;
   @Input() public delta: number = 0;
   @Input() public stopper: number = 0;
-  @Input() public timeout: number = 500; // wait this many milliseconds to do an API call
+  @Input() public timeout: number = 2200; // wait this many milliseconds to do an API call
 
   private dur: any = this.dtType.toLocaleLowerCase();
   @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
@@ -41,8 +36,7 @@ export class SolarsystemComponent implements OnInit {
 
   //* Stage Properties
 
-  @Input() public cameraZ: number = 93e6;
-  @Input() public fieldOfView: number = 1000;
+  @Input() public fieldOfView: number = 1500;
   @Input('nearClipping') public nearClippingPlane: number = 1;
   @Input('farClipping') public farClippingPlane: number = 1e20;
 
@@ -58,16 +52,17 @@ export class SolarsystemComponent implements OnInit {
   }
   private loader = new THREE.TextureLoader();
 
-  private bg_geometry = new THREE.SphereGeometry(5e9, 32, 32);
+  private bg_geometry = new THREE.SphereGeometry(1e10, 32, 32);
   private bg_material = new THREE.MeshBasicMaterial({ map: this.loader.load(this.bg_texture), side: THREE.BackSide });
 
   private renderer!: THREE.WebGLRenderer;
+  private labelRenderer!: CSS2DRenderer;
   private scene!: THREE.Scene;
-  private controls!: OrbitControls; 
+  private controls!: OrbitControls;
 
-  private solarSystem: { body: string, mesh: THREE.Mesh}[] = [];
+  private solarSystem: { body: string, mesh: THREE.Mesh, label: CSS2DObject }[] = [];
   private backgroundStars: THREE.Mesh = new THREE.Mesh(this.bg_geometry, this.bg_material);
-
+  private light = new THREE.PointLight( 0xffffff, 1, 0, 2);
 
   private getAspectRatio(): number {
     return this.canvas.clientWidth / this.canvas.clientHeight;
@@ -79,14 +74,19 @@ export class SolarsystemComponent implements OnInit {
         b.mesh.position.setX(this.bodyLocations[b.body][this.index].x);
         b.mesh.position.setY(this.bodyLocations[b.body][this.index].y);
         b.mesh.position.setZ(this.bodyLocations[b.body][this.index].z);
+
+        b.label.position.copy(b.mesh.position);
       });
 
+      this.controls.target.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z);
+      this.light.position.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z)
       this.controls.update();
       this.index += this.dt;
     }
     else {
       this.index = 0;
-      this.camera.lookAt(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z);
+      this.controls.target.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z);
+      this.light.position.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z)
       this.controls.update();
     }
   }
@@ -99,7 +99,20 @@ export class SolarsystemComponent implements OnInit {
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, logarithmicDepthBuffer: true });
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+
+    this.labelRenderer = new CSS2DRenderer();
+    this.labelRenderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+    this.labelRenderer.domElement.style.position = 'absolute';
+    this.labelRenderer.domElement.style.top = '0px';
+    this.labelRenderer.domElement.style.pointerEvents = 'none';
+    document.getElementById( 'solarSystemContainer' )!.appendChild( this.labelRenderer.domElement )!;
+
     let component: SolarsystemComponent = this;
+
+    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    this.controls.target.set(this.bodyLocations['sun'][0].x, this.bodyLocations['sun'][0].y, this.bodyLocations['sun'][0].z);
+    this.controls.enableZoom = false;
+    this.controls.update();
 
     (function render() {
       requestAnimationFrame(render);
@@ -111,13 +124,13 @@ export class SolarsystemComponent implements OnInit {
         }
 
       component.renderer.render(component.scene, component.camera);
+      component.labelRenderer.render(component.scene, component.camera);
     }());
 
-    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
-    
-    this.controls.update();
     console.log('rendering loop done');
     this.spinner.hide();
+
+
   }
 
   private createScene(): void {
@@ -126,7 +139,10 @@ export class SolarsystemComponent implements OnInit {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000);
 
-    this.solarSystem.forEach( (b) => { this.scene.add(b.mesh) });
+    this.solarSystem.forEach( (b) => { 
+      this.scene.add(b.mesh); 
+      this.scene.add(b.label);
+    });
 
     this.backgroundStars.name = 'backgroundStars';
     this.scene.add(this.backgroundStars);
@@ -138,14 +154,11 @@ export class SolarsystemComponent implements OnInit {
       aspectRatio,
       this.nearClippingPlane,
       this.farClippingPlane
-    )
+    );
+
     this.camera.position.set(this.earthPos.x, this.earthPos.y, this.earthPos.z);
-    
-    this.camera.lookAt(this.bodyLocations['sun'][0].x, this.bodyLocations['sun'][0].y, this.bodyLocations['sun'][0].z);
-    
-    const light = new THREE.PointLight( 0xffffff, 1, 0, 2);
-    light.position.set(0,0,0);
-    this.scene.add(light);
+    this.light.position.set(this.bodyLocations['sun'][0].x, this.bodyLocations['sun'][0].y, this.bodyLocations['sun'][0].z);
+    this.scene.add(this.light);
 
     this.clock.start();
     console.log('scene created')
@@ -155,20 +168,27 @@ export class SolarsystemComponent implements OnInit {
   private createSolarSystem(): void {
     console.log('create solar system begin');
 
-    for (let i in BODIES) {
-      let b = BODIES[i];
+    BODIES.forEach((b) => {
       let texture: string = '/assets/texture-' + b.body + '.jpeg';
 
       let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
-      let material = new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
+      let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
 
       let newMesh: THREE.Mesh = new THREE.Mesh(geometry, material);
       newMesh.name = b.body;
-      
       newMesh.position.set( this.bodyLocations[b.body][0].x, this.bodyLocations[b.body][0].y, this.bodyLocations[b.body][0].z );
-      this.solarSystem.push({ body: b.body, mesh: newMesh });
+
+
+      const text = document.createElement('div')
+      text.className = 'bodyLabel';
+      text.textContent = b.body === 'sun' ? '' : b.body;
+
+      const label = new CSS2DObject( text );
+      label.position.copy( newMesh.position );
+      
+      this.solarSystem.push({ body: b.body, mesh: newMesh, label: label });
       console.log(b.body + ' added to system')
-    }
+    })
     this.createScene();
   }
 
@@ -273,10 +293,11 @@ export class SolarsystemComponent implements OnInit {
   };
 
   ngOnInit(): void {
+
     this.spinner.show(undefined,
       {
-        type: 'square-spin',
-        size: 'small',
+        type: 'ball-circus',
+        size: 'large',
         bdColor: 'rgba(255, 255, 255, .3)',
         color: 'white',
         fullScreen: false
@@ -287,6 +308,7 @@ export class SolarsystemComponent implements OnInit {
   ngAfterViewInit(): void {
     console.log('onInit');
     this.doThings();
+
   }
 
 }
