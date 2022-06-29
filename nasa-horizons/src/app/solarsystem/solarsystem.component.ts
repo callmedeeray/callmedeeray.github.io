@@ -32,7 +32,7 @@ export class SolarsystemComponent implements OnInit {
   private dur: any = this.dtType.toLocaleLowerCase();
   @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
 
-  @Input() public bg_texture: string = '/assets/texture-background.jpeg';
+  @Input() public bg_texture: string = '../assets/texture-background.jpeg' || './assets/texture-background.jpeg';
 
   //* Stage Properties
 
@@ -169,7 +169,7 @@ export class SolarsystemComponent implements OnInit {
     console.log('create solar system begin');
 
     BODIES.forEach((b) => {
-      let texture: string = '/assets/texture-' + b.body + '.jpeg';
+      let texture: string = '../assets/texture-' + b.body + '.jpeg' || './assets/texture-' + b.body + '.jpeg';
 
       let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
       let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
