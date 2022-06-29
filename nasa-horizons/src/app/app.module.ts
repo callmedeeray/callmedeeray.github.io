@@ -10,6 +10,7 @@ import { SolarsystemComponent } from './solarsystem/solarsystem.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
