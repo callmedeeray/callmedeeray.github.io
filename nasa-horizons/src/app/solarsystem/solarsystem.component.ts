@@ -100,7 +100,7 @@ export class SolarsystemComponent implements OnInit {
     this.labelRenderer = new CSS2DRenderer();
     this.labelRenderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.labelRenderer.domElement.style.position = 'absolute';
-    this.labelRenderer.domElement.style.top = '10vh';
+    this.labelRenderer.domElement.style.top = '5vh';
     this.labelRenderer.domElement.style.pointerEvents = 'none';
     document.getElementById( 'solarSystemContainer' )!.appendChild( this.labelRenderer.domElement )!;
 
@@ -125,6 +125,8 @@ export class SolarsystemComponent implements OnInit {
     }());
 
     console.log('rendering loop done');
+    let imgHeight = document.getElementById('header-img')!.clientHeight * 0.9;
+    document.getElementById('ss-header')!.style!.transform! = 'translate(' + imgHeight/4 + 'px,' + imgHeight + 'px)';
     this.spinner.hide();
   }
 
@@ -271,8 +273,6 @@ export class SolarsystemComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
-    this.headerImagePath =  "assets/Planets.png";
     this.spinner.show(undefined,
       {
         type: 'ball-circus',
@@ -282,6 +282,8 @@ export class SolarsystemComponent implements OnInit {
         fullScreen: true
       }
     );
+    this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
+    
   }
 
   ngAfterViewInit(): void {

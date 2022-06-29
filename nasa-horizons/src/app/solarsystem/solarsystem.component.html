@@ -1,6 +1,12 @@
 <div id="solarSystemContainer">
-    <img src={{headerImagePath}} class="header-img" />
-    <div class="ss-header">{{ sunMultiplier }}</div>
+    <div id="ss-header">
+        <p>
+            Sun exaggerated by {{ sunMultiplier }}x<br />
+            Planets exaggerated by {{ planetMultiplier }}x<br />
+            Click/tap and drag to pan around!<br />
+            The camera is located on Earth.
+        </p>
+    </div>
     <ngx-spinner>
         <p class="loading">Fetching planetary data...<br />
             (this takes some time)</p>
