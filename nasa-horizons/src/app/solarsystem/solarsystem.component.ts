@@ -18,6 +18,7 @@ import { BODIES } from '../bodies';
 export class SolarsystemComponent implements OnInit {
 
   @ViewChild('canvas') private canvasRef!: ElementRef;
+  private proxyURL: string = 'https://quiet-shelf-35635.herokuapp.com/';
 
   @Input() public dt: number = 1;
   @Input() public dtType = 'HOURS';
@@ -197,7 +198,7 @@ export class SolarsystemComponent implements OnInit {
   private getEarthData(): void {
     console.log('get earth data')
 
-    let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=399&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
+    let str: string = this.proxyURL + 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=399&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
     
     this.httpClient
       .get(str)
@@ -270,7 +271,7 @@ export class SolarsystemComponent implements OnInit {
     let a: Date = new Date();        
     console.log('begin fetching data for ' + b.body + ' at ' + a)
 
-    let str: string = 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + b.id.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
+    let str: string = this.proxyURL + 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + b.id.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
     
     this.httpClient
       .get(str)
@@ -296,7 +297,7 @@ export class SolarsystemComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.baseURLPath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
+    this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
     this.spinner.show(undefined,
       {
         type: 'ball-circus',
