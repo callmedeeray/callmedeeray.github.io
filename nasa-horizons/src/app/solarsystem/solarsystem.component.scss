@@ -1,5 +1,13 @@
-p {
-    font-family: Lato, sans-serif;
+@import '../../styles.scss';
+
+
+#ss-header {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 200;
+    font-size: smaller;
+    position: fixed;
+    top: $margin;
+    left: $margin;
 }
   
 .loading {
@@ -9,11 +17,11 @@ p {
 }
 
 #solarSystemContainer {
-    height: 95vh;
+    height: 100vh - 2*$margin;
     width: 95vw;
 }
 
 #canvas {
-    height: 100%;
-    width: 100%;
+    height: 95%;
+    width: 98%;
 }
