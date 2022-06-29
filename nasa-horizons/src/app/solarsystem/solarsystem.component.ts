@@ -171,7 +171,6 @@ export class SolarsystemComponent implements OnInit {
     BODIES.forEach((b) => {
       if (b.body !== 'earth') {
         let texture: string = this.baseURLPath + 'assets/texture-' + b.body + '.jpeg';
-        console.log(texture);
         let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
         let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
 
@@ -273,7 +272,7 @@ export class SolarsystemComponent implements OnInit {
   ngOnInit(): void {
 
     this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
-    this.headerImagePath = this.baseURLPath + "assets/Planets.png";
+    this.headerImagePath =  "assets/Planets.png";
     this.spinner.show(undefined,
       {
         type: 'ball-circus',
