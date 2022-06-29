@@ -8,7 +8,7 @@ import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRe
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import { LocationRaw, Location, BodyLocations } from '../location_types';
-import { BODIES } from '../bodies';
+import { BODIES, planetMultiplier, sunMultiplier } from '../bodies';
 
 @Component({
   selector: 'app-solarsystem',
@@ -18,41 +18,37 @@ import { BODIES } from '../bodies';
 export class SolarsystemComponent implements OnInit {
 
   @ViewChild('canvas') private canvasRef!: ElementRef;
-  private proxyURL: string = 'https://quiet-shelf-35635.herokuapp.com/';
 
   @Input() public dt: number = 1;
   @Input() public dtType = 'HOURS';
   @Input() public startDate = '2021-05-17';
   @Input() public endDate = '2023-05-17';
   @Input() public interval: number = 1/60;  // 1/X = X frames per second
-  @Input() public index: number = 0;
-  @Input() public delta: number = 0;
-  @Input() public stopper: number = 0;
-  @Input() public timeout: number = 2200; // wait this many milliseconds to do an API call
-
-  private dur: any = this.dtType.toLocaleLowerCase();
-  @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
-  private baseURLPath: string = '';
+  @Input() public timeout: number = 2500; // wait this many milliseconds to do an API call
+  public sunMultiplier: number = sunMultiplier;
+  public planetMultiplier: number = planetMultiplier;
 
   //* Stage Properties
 
-  @Input() public fieldOfView: number = 1500;
-  @Input('nearClipping') public nearClippingPlane: number = 1;
-  @Input('farClipping') public farClippingPlane: number = 1e20;
+  private fieldOfView: number = 1500;
+  private nearClippingPlane: number = 1;
+  private farClippingPlane: number = 1e20;
 
   //? Helper Properties (Private Properties);
+  private index: number = 0; // for looping through the positions
+  private delta: number = 0; // for use with the clock to slow down the animation speed
+  private stopper: number = 0; // to make sure the setup is only performed once
+
+  private dur: any = this.dtType.toLocaleLowerCase();
+  private numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
+  private baseURLPath: string = '';
+  private proxyURL: string = 'https://quiet-shelf-35635.herokuapp.com/';
 
   private bodyLocations: BodyLocations = {};
   private camera!: THREE.PerspectiveCamera;
   private clock: THREE.Clock = new THREE.Clock();
   private earthPos!: THREE.Vector3;
-
-  private get canvas(): HTMLCanvasElement {
-    return this.canvasRef.nativeElement;
-  }
   private loader = new THREE.TextureLoader();
-
-  
   private renderer!: THREE.WebGLRenderer;
   private labelRenderer!: CSS2DRenderer;
   private scene!: THREE.Scene;
@@ -60,6 +56,12 @@ export class SolarsystemComponent implements OnInit {
 
   private solarSystem: { body: string, mesh: THREE.Mesh, label: CSS2DObject }[] = [];
   private light = new THREE.PointLight( 0xffffff, 1, 0, 2);
+
+  constructor(private httpClient: HttpClient, private spinner: NgxSpinnerService) { }
+
+  private get canvas(): HTMLCanvasElement {
+    return this.canvasRef.nativeElement;
+  }
 
   private getAspectRatio(): number {
     return this.canvas.clientWidth / this.canvas.clientHeight;
@@ -78,13 +80,10 @@ export class SolarsystemComponent implements OnInit {
       this.controls.target.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z);
       this.light.position.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z)
       this.controls.update();
-      this.index += this.dt;
+      this.index++;
     }
     else {
       this.index = 0;
-      this.controls.target.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z);
-      this.light.position.set(this.bodyLocations['sun'][this.index].x, this.bodyLocations['sun'][this.index].y, this.bodyLocations['sun'][this.index].z)
-      this.controls.update();
     }
   }
 
@@ -126,8 +125,6 @@ export class SolarsystemComponent implements OnInit {
 
     console.log('rendering loop done');
     this.spinner.hide();
-
-
   }
 
   private createScene(): void {
@@ -140,7 +137,6 @@ export class SolarsystemComponent implements OnInit {
       this.scene.add(b.mesh); 
       this.scene.add(b.label);
     });
-
 
     let bg_texture: string = this.baseURLPath +  'assets/texture-background.jpeg';
     let bg_geometry = new THREE.SphereGeometry(1e10, 32, 32);
@@ -172,45 +168,29 @@ export class SolarsystemComponent implements OnInit {
     console.log('create solar system begin');
 
     BODIES.forEach((b) => {
-      let texture: string = this.baseURLPath + 'assets/texture-' + b.body + '.jpeg';
-      console.log(texture);
-      let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
-      let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
+      if (b.body !== 'earth') {
+        let texture: string = this.baseURLPath + 'assets/texture-' + b.body + '.jpeg';
+        console.log(texture);
+        let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
+        let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
 
-      let newMesh: THREE.Mesh = new THREE.Mesh(geometry, material);
-      newMesh.name = b.body;
-      newMesh.position.set( this.bodyLocations[b.body][0].x, this.bodyLocations[b.body][0].y, this.bodyLocations[b.body][0].z );
+        let newMesh: THREE.Mesh = new THREE.Mesh(geometry, material);
+        newMesh.name = b.body;
+        newMesh.position.set( this.bodyLocations[b.body][0].x, this.bodyLocations[b.body][0].y, this.bodyLocations[b.body][0].z );
 
+        const text = document.createElement('div')
+        text.className = 'bodyLabel';
+        text.textContent = b.body === 'sun' ? '' : b.body;
 
-      const text = document.createElement('div')
-      text.className = 'bodyLabel';
-      text.textContent = b.body === 'sun' ? '' : b.body;
-
-      const label = new CSS2DObject( text );
-      label.position.copy( newMesh.position );
-      
-      this.solarSystem.push({ body: b.body, mesh: newMesh, label: label });
-      console.log(b.body + ' added to system')
+        const label = new CSS2DObject( text );
+        label.position.copy( newMesh.position );
+        
+        this.solarSystem.push({ body: b.body, mesh: newMesh, label: label });
+        console.log(b.body + ' added to system')
+      }
     })
     this.createScene();
   }
-
-  private getEarthData(): void {
-    console.log('get earth data')
-
-    let str: string = this.proxyURL + 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=399&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
-    
-    this.httpClient
-      .get(str)
-      .subscribe(data => {
-        let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
-        this.convertData(result, 'earth');
-        this.earthPos = new THREE.Vector3(result[0].x, result[0].y, result[0].z);
-        console.log('earth completed')
-        this.createSolarSystem();
-      })
-
-  };
 
   convertData(locs: LocationRaw[], body: string): void {
     console.log('begin converting data for ' + body)
@@ -226,17 +206,12 @@ export class SolarsystemComponent implements OnInit {
       })
     })
 
-    if (body !== 'earth') { 
-      this.bodyLocations[body] = locations;
-    };
+    this.bodyLocations[body] = locations;
 
     console.log(body + ' conversion done!');
     if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) { 
-      
-      let a: Date = new Date();
-      console.log('begin fetching data for Earth at ' + a);
-      setTimeout(() => { this.getEarthData() }, this.timeout);
       this.stopper++;
+      this.createSolarSystem();
       };
   }
 
@@ -277,12 +252,11 @@ export class SolarsystemComponent implements OnInit {
       .get(str)
       .subscribe(data => {
         let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
+        b.body === 'earth' ? this.earthPos = new THREE.Vector3(result[0].x, result[0].y, result[0].z) : '';
         this.convertData(result, b.body);
       })
     
   };
-
-  constructor(private httpClient: HttpClient, private spinner: NgxSpinnerService) { }
 
   private sleep(x: number): Promise<void> {
     return new Promise(resolve =>  setTimeout(resolve as any, x));
@@ -302,9 +276,9 @@ export class SolarsystemComponent implements OnInit {
       {
         type: 'ball-circus',
         size: 'large',
-        bdColor: 'rgba(255, 255, 255, .3)',
+        bdColor: 'rgba(100, 100, 100, 1)',
         color: 'white',
-        fullScreen: false
+        fullScreen: true
       }
     );
   }
@@ -312,7 +286,5 @@ export class SolarsystemComponent implements OnInit {
   ngAfterViewInit(): void {
     console.log('onInit');
     this.doThings();
-
   }
-
 }
