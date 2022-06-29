@@ -43,6 +43,7 @@ export class SolarsystemComponent implements OnInit {
   private numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
   private baseURLPath: string = '';
   private proxyURL: string = 'https://quiet-shelf-35635.herokuapp.com/';
+  public headerImagePath: string = '';
 
   private bodyLocations: BodyLocations = {};
   private camera!: THREE.PerspectiveCamera;
@@ -99,7 +100,7 @@ export class SolarsystemComponent implements OnInit {
     this.labelRenderer = new CSS2DRenderer();
     this.labelRenderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.labelRenderer.domElement.style.position = 'absolute';
-    this.labelRenderer.domElement.style.top = '0px';
+    this.labelRenderer.domElement.style.top = '10vh';
     this.labelRenderer.domElement.style.pointerEvents = 'none';
     document.getElementById( 'solarSystemContainer' )!.appendChild( this.labelRenderer.domElement )!;
 
@@ -272,6 +273,7 @@ export class SolarsystemComponent implements OnInit {
   ngOnInit(): void {
 
     this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
+    this.headerImagePath = this.baseURLPath + "assets/Planets.png";
     this.spinner.show(undefined,
       {
         type: 'ball-circus',
