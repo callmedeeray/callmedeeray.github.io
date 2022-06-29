@@ -31,8 +31,7 @@ export class SolarsystemComponent implements OnInit {
 
   private dur: any = this.dtType.toLocaleLowerCase();
   @Input() public numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
-
-  @Input() public bg_texture: string = '../assets/texture-background.jpeg' || './assets/texture-background.jpeg';
+  private baseURLPath: string = '';
 
   //* Stage Properties
 
@@ -52,16 +51,13 @@ export class SolarsystemComponent implements OnInit {
   }
   private loader = new THREE.TextureLoader();
 
-  private bg_geometry = new THREE.SphereGeometry(1e10, 32, 32);
-  private bg_material = new THREE.MeshBasicMaterial({ map: this.loader.load(this.bg_texture), side: THREE.BackSide });
-
+  
   private renderer!: THREE.WebGLRenderer;
   private labelRenderer!: CSS2DRenderer;
   private scene!: THREE.Scene;
   private controls!: OrbitControls;
 
   private solarSystem: { body: string, mesh: THREE.Mesh, label: CSS2DObject }[] = [];
-  private backgroundStars: THREE.Mesh = new THREE.Mesh(this.bg_geometry, this.bg_material);
   private light = new THREE.PointLight( 0xffffff, 1, 0, 2);
 
   private getAspectRatio(): number {
@@ -144,8 +140,14 @@ export class SolarsystemComponent implements OnInit {
       this.scene.add(b.label);
     });
 
-    this.backgroundStars.name = 'backgroundStars';
-    this.scene.add(this.backgroundStars);
+
+    let bg_texture: string = this.baseURLPath +  'assets/texture-background.jpeg';
+    let bg_geometry = new THREE.SphereGeometry(1e10, 32, 32);
+    let bg_material = new THREE.MeshBasicMaterial({ map: this.loader.load(bg_texture), side: THREE.BackSide });
+    let backgroundStars: THREE.Mesh = new THREE.Mesh(bg_geometry, bg_material);
+
+    backgroundStars.name = 'backgroundStars';
+    this.scene.add(backgroundStars);
 
     //* Camera
     let aspectRatio = this.getAspectRatio();
@@ -169,8 +171,8 @@ export class SolarsystemComponent implements OnInit {
     console.log('create solar system begin');
 
     BODIES.forEach((b) => {
-      let texture: string = '../assets/texture-' + b.body + '.jpeg' || './assets/texture-' + b.body + '.jpeg';
-
+      let texture: string = this.baseURLPath + 'assets/texture-' + b.body + '.jpeg';
+      console.log(texture);
       let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
       let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
 
@@ -294,6 +296,7 @@ export class SolarsystemComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.baseURLPath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
     this.spinner.show(undefined,
       {
         type: 'ball-circus',
