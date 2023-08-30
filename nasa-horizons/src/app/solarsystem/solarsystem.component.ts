@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { DateTime, DurationUnits } from 'luxon'; 
+import { DateTime, DurationUnits } from 'luxon';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
@@ -23,7 +23,7 @@ export class SolarsystemComponent implements OnInit {
   @Input() public dtType = 'HOURS';
   @Input() public startDate = '2021-05-17';
   @Input() public endDate = '2023-05-17';
-  @Input() public interval: number = 1/60;  // 1/X = X frames per second
+  @Input() public interval: number = 1 / 60;  // 1/X = X frames per second
   @Input() public timeout: number = 2500; // wait this many milliseconds to do an API call
   public sunMultiplier: number = sunMultiplier;
   public planetMultiplier: number = planetMultiplier;
@@ -42,7 +42,7 @@ export class SolarsystemComponent implements OnInit {
   private dur: any = this.dtType.toLocaleLowerCase();
   private numSteps = (DateTime.fromISO(this.endDate)).diff(DateTime.fromISO(this.startDate), this.dur).as(this.dur) + 1;
   private baseURLPath: string = '';
-  private proxyURL: string = 'https://quiet-shelf-35635.herokuapp.com/';
+  private proxyURL: string = 'https://quiet-shelf-35635.fly.dev/';
   public headerImagePath: string = '';
 
   private bodyLocations: BodyLocations = {};
@@ -56,7 +56,7 @@ export class SolarsystemComponent implements OnInit {
   private controls!: OrbitControls;
 
   private solarSystem: { body: string, mesh: THREE.Mesh, label: CSS2DObject }[] = [];
-  private light = new THREE.PointLight( 0xffffff, 1, 0, 2);
+  private light = new THREE.PointLight(0xffffff, 1, 0, 2);
 
   constructor(private httpClient: HttpClient, private spinner: NgxSpinnerService) { }
 
@@ -102,11 +102,11 @@ export class SolarsystemComponent implements OnInit {
     this.labelRenderer.domElement.style.position = 'absolute';
     this.labelRenderer.domElement.style.top = '5vh';
     this.labelRenderer.domElement.style.pointerEvents = 'none';
-    document.getElementById( 'solarSystemContainer' )!.appendChild( this.labelRenderer.domElement )!;
+    document.getElementById('solarSystemContainer')!.appendChild(this.labelRenderer.domElement)!;
 
     let component: SolarsystemComponent = this;
 
-    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.target.set(this.bodyLocations['sun'][0].x, this.bodyLocations['sun'][0].y, this.bodyLocations['sun'][0].z);
     this.controls.enableZoom = false;
     this.controls.update();
@@ -115,10 +115,10 @@ export class SolarsystemComponent implements OnInit {
       requestAnimationFrame(render);
       component.delta += component.clock.getDelta();
 
-        if (component.delta > component.interval) {
-          component.animate();
-          component.delta = component.delta % component.interval;
-        }
+      if (component.delta > component.interval) {
+        component.animate();
+        component.delta = component.delta % component.interval;
+      }
 
       component.renderer.render(component.scene, component.camera);
       component.labelRenderer.render(component.scene, component.camera);
@@ -126,7 +126,7 @@ export class SolarsystemComponent implements OnInit {
 
     console.log('rendering loop done');
     let imgHeight = document.getElementById('header-img')!.clientHeight * 0.9;
-    document.getElementById('ss-header')!.style!.transform! = 'translate(' + imgHeight/4 + 'px,' + imgHeight + 'px)';
+    document.getElementById('ss-header')!.style!.transform! = 'translate(' + imgHeight / 4 + 'px,' + imgHeight + 'px)';
     this.spinner.hide();
   }
 
@@ -136,12 +136,12 @@ export class SolarsystemComponent implements OnInit {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000);
 
-    this.solarSystem.forEach( (b) => { 
-      this.scene.add(b.mesh); 
+    this.solarSystem.forEach((b) => {
+      this.scene.add(b.mesh);
       this.scene.add(b.label);
     });
 
-    let bg_texture: string = this.baseURLPath +  'assets/texture-background.jpeg';
+    let bg_texture: string = this.baseURLPath + 'assets/texture-background.jpeg';
     let bg_geometry = new THREE.SphereGeometry(1e10, 32, 32);
     let bg_material = new THREE.MeshBasicMaterial({ map: this.loader.load(bg_texture), side: THREE.BackSide });
     let backgroundStars: THREE.Mesh = new THREE.Mesh(bg_geometry, bg_material);
@@ -173,20 +173,20 @@ export class SolarsystemComponent implements OnInit {
     BODIES.forEach((b) => {
       if (b.body !== 'earth') {
         let texture: string = this.baseURLPath + 'assets/texture-' + b.body + '.jpeg';
-        let geometry = new THREE.SphereGeometry(b.radius*1.60934, 32, 32); // convert miles to km
+        let geometry = new THREE.SphereGeometry(b.radius * 1.60934, 32, 32); // convert miles to km
         let material = b.body === 'sun' ? new THREE.MeshBasicMaterial({ map: this.loader.load(texture) }) : new THREE.MeshBasicMaterial({ map: this.loader.load(texture) });
 
         let newMesh: THREE.Mesh = new THREE.Mesh(geometry, material);
         newMesh.name = b.body;
-        newMesh.position.set( this.bodyLocations[b.body][0].x, this.bodyLocations[b.body][0].y, this.bodyLocations[b.body][0].z );
+        newMesh.position.set(this.bodyLocations[b.body][0].x, this.bodyLocations[b.body][0].y, this.bodyLocations[b.body][0].z);
 
         const text = document.createElement('div')
         text.className = 'bodyLabel';
         text.textContent = b.body === 'sun' ? '' : b.body;
 
-        const label = new CSS2DObject( text );
-        label.position.copy( newMesh.position );
-        
+        const label = new CSS2DObject(text);
+        label.position.copy(newMesh.position);
+
         this.solarSystem.push({ body: b.body, mesh: newMesh, label: label });
         console.log(b.body + ' added to system')
       }
@@ -211,31 +211,31 @@ export class SolarsystemComponent implements OnInit {
     this.bodyLocations[body] = locations;
 
     console.log(body + ' conversion done!');
-    if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) { 
+    if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) {
       this.stopper++;
       this.createSolarSystem();
-      };
+    };
   }
 
   private csvJSON(csv: string): any {
     // source: http://techslides.com/convert-csv-to-json-in-javascript
 
     let lines = csv.split("\n");
-  
+
     let result = [];
-  
+
     // NOTE: If your columns contain commas in their values, you'll need
     // to deal with those before doing the next step 
     // (you might convert them to &&& or something, then covert them back later)
     // jsfiddle showing the issue https://jsfiddle.net/
     let headers: string[] = lines[0].split(",");
-  
-    for(let i=1; i<lines.length-1; i++) {
-  
+
+    for (let i = 1; i < lines.length - 1; i++) {
+
       let obj: any = {};
       let currentline = lines[i].split(",");
 
-      for(let j=0; j<headers.length; j++){
+      for (let j = 0; j < headers.length; j++) {
         obj[headers[j]] = currentline[j].trim();
       }
       result.push(obj);
@@ -244,30 +244,30 @@ export class SolarsystemComponent implements OnInit {
     return result; //JSON
   }
 
-  private getData(b: {body: string, id: number}): void {
-    let a: Date = new Date();        
+  private getData(b: { body: string, id: number }): void {
+    let a: Date = new Date();
     console.log('begin fetching data for ' + b.body + ' at ' + a)
 
     let str: string = this.proxyURL + 'https://ssd.jpl.nasa.gov/api/horizons.api?' + "MAKE_EPHEM=YES&CSV_FORMAT=YES&COMMAND=" + b.id.toString() + "&EPHEM_TYPE=VECTORS&CENTER='coord@399'&COORD_TYPE=GEODETIC&SITE_COORD='-122.34700,+37.93670,0'&START_TIME='" + this.startDate + "'&STOP_TIME='" + this.endDate + "'&STEP_SIZE='" + this.dt.toString() + " " + this.dtType + "'&VEC_TABLE='1'&REF_SYSTEM='ICRF'&REF_PLANE='FRAME'&VEC_CORR='NONE'&OUT_UNITS='KM-D'&VEC_LABELS='NO'&VEC_DELTA_T='NO'&OBJ_DATA='NO'"
-    
     this.httpClient
       .get(str)
       .subscribe(data => {
-        let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + Object.values(data)[1].split('$$SOE')[1].split('$$EOE')[0]);
+        let dat: any = data;
+        let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + dat.result.split('$$SOE')[1].split('$$EOE')[0]);
         b.body === 'earth' ? this.earthPos = new THREE.Vector3(result[0].x, result[0].y, result[0].z) : '';
         this.convertData(result, b.body);
       })
-    
+
   };
 
   private sleep(x: number): Promise<void> {
-    return new Promise(resolve =>  setTimeout(resolve as any, x));
+    return new Promise(resolve => setTimeout(resolve as any, x));
   };
 
   private async doThings(): Promise<void> {
     for (let i = 0; i < BODIES.length; i++) {
       this.getData(BODIES[i]);
-      await this.sleep(this.timeout); 
+      await this.sleep(this.timeout);
     }
   };
 
@@ -282,8 +282,8 @@ export class SolarsystemComponent implements OnInit {
         fullScreen: true
       }
     );
-    this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html','');
-    
+    this.baseURLPath = this.proxyURL + window.location.protocol + '//' + window.location.host + window.location.pathname.replace('index.html', '');
+
   }
 
   ngAfterViewInit(): void {
