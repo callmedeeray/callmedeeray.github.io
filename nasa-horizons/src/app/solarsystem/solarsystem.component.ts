@@ -129,6 +129,10 @@ export class SolarsystemComponent implements OnInit {
     document.getElementById('ss-header')!.style!.transform! = 'translate(' + imgHeight / 4 + 'px,' + imgHeight + 'px)';
     this.spinner.hide();
   }
+  private updateProgress(newValue: number): void {
+    let progressBar = document.getElementById('progressbar') as HTMLProgressElement;
+    progressBar.value = newValue;
+  }
 
   private createScene(): void {
     console.log('create scene begin');
@@ -188,13 +192,13 @@ export class SolarsystemComponent implements OnInit {
         label.position.copy(newMesh.position);
 
         this.solarSystem.push({ body: b.body, mesh: newMesh, label: label });
-        console.log(b.body + ' added to system')
+        console.log(b.body + ' added to system');
       }
     })
     this.createScene();
   }
 
-  convertData(locs: LocationRaw[], body: string): void {
+  convertData(locs: LocationRaw[], body: string, i: number): void {
     console.log('begin converting data for ' + body)
     let locations: Location[] = [];
 
@@ -211,6 +215,7 @@ export class SolarsystemComponent implements OnInit {
     this.bodyLocations[body] = locations;
 
     console.log(body + ' conversion done!');
+    this.updateProgress(i + 1);
     if (Object.keys(this.bodyLocations).length === BODIES.length && this.stopper === 0) {
       this.stopper++;
       this.createSolarSystem();
@@ -244,7 +249,7 @@ export class SolarsystemComponent implements OnInit {
     return result; //JSON
   }
 
-  private getData(b: { body: string, id: number }): void {
+  private getData(b: { body: string, id: number }, i: number): void {
     let a: Date = new Date();
     console.log('begin fetching data for ' + b.body + ' at ' + a)
 
@@ -255,7 +260,7 @@ export class SolarsystemComponent implements OnInit {
         let dat: any = data;
         let result = this.csvJSON('jdtdb,calendar_date,x,y,z,' + dat.result.split('$$SOE')[1].split('$$EOE')[0]);
         b.body === 'earth' ? this.earthPos = new THREE.Vector3(result[0].x, result[0].y, result[0].z) : '';
-        this.convertData(result, b.body);
+        this.convertData(result, b.body, i);
       })
 
   };
@@ -266,7 +271,7 @@ export class SolarsystemComponent implements OnInit {
 
   private async doThings(): Promise<void> {
     for (let i = 0; i < BODIES.length; i++) {
-      this.getData(BODIES[i]);
+      this.getData(BODIES[i], i);
       await this.sleep(this.timeout);
     }
   };

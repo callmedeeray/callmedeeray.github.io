@@ -1,5 +1,32 @@
 @import '../../styles.scss';
 
+progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+
+    width: 200px;
+    height: 10px;
+
+    color: #eee;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 4px;
+    background-color: #444;
+}
+
+progress::-moz-progress-bar {
+    border-radius: 4px;
+    background-color: #444;
+}
 
 #ss-header {
     font-family: 'Courier New', Courier, monospace;
@@ -9,7 +36,7 @@
     top: $margin;
     left: $margin;
 }
-  
+
 .loading {
     color: white;
     padding-top: 50px;
